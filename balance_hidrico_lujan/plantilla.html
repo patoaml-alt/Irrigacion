@@ -144,7 +144,7 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
 <div class="wrap">
 
 <header class="hero">
-  <div class="eyebrow">Balance hídrico poblacional · Departamento de Luján de Cuyo · Mendoza</div>
+  <div class="eyebrow">Balance hídrico poblacional · Luján de Cuyo · Fuentes: DGI (empadronamiento 2020, registro de pozos) e INDEC (Censo 2022)</div>
   <h1>El agua de Mendoza <em>se potabiliza en Luján.</em> ¿Le alcanza a Luján?</h1>
   <p class="lede">Cruzamos las dotaciones superficiales empadronadas de las plantas de AYSAM y del Municipio, el registro de pozos y la cobertura cloacal con la población del Censo 2022. El resultado: hay mucha agua en el papel y un problema serio debajo de la tierra.</p>
   <div class="thesis">
@@ -156,27 +156,26 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
 <div class="kpis">
   <div class="kpi"><div class="v num" id="kPob">175.056</div><div class="l">habitantes (Censo 2022). <b id="kGrow">+46 %</b> desde 2010, el mayor crecimiento de la provincia.</div></div>
   <div class="kpi"><div class="v w num" id="kDot">1.630</div><div class="l">litros por habitante y día de dotación cruda en las plantas municipales (Cipolletti y Santa Elena).</div></div>
-  <div class="kpi"><div class="v d num" id="kSin">78.800</div><div class="l">personas sin red cloacal (55 % de cobertura). Su efluente va a pozos sépticos.</div></div>
-  <div class="kpi"><div class="v d num" id="kPoz">1.049</div><div class="l">pozos registrados en Luján en zonas sin cobertura cloacal. 47 abastecen a población.</div></div>
+  <div class="kpi"><div class="v d num" id="kSin">78.800</div><div class="l">personas sin red cloacal si la cobertura departamental es del 55 % (dato de prensa 2022, a confirmar con AYSAM).</div></div>
+  <div class="kpi"><div class="v d num" id="kPoz">1.049</div><div class="l">pozos de Luján en el registro DGI de perforaciones sin área de cobertura cloacal. 47 abastecen a población.</div></div>
 </div>
 
 <section id="mapa">
   <div style="display:grid;gap:10px">
     <div class="eyebrow">Mapa · cartograma por distrito</div>
-    <h2>Donde vive la gente, donde está el agua y donde falta la cloaca</h2>
-    <p class="muted">Cada círculo es un distrito, con área proporcional a su población. Los rombos son las plantas potabilizadoras, sobre el Río Mendoza. Tocá un distrito para ver su ficha.</p>
+    <h2>Dónde se capta el agua y dónde se bombea el acuífero</h2>
+    <p class="muted">Cada círculo es un distrito, con área proporcional a la cantidad de pozos que figuran en el registro de la DGI. Los rombos son las plantas potabilizadoras sobre el Río Mendoza. Tocá un distrito para ver su ficha. No se muestran población ni cobertura cloacal por distrito porque no contamos con datos oficiales a ese nivel.</p>
   </div>
   <div class="toolbar">
     <div class="seg" role="group" aria-label="Color del mapa">
-      <button type="button" id="mSin" data-m="sin" aria-pressed="true">Sin cloaca (%)</button>
-      <button type="button" id="mPoz" data-m="poz" aria-pressed="false">Pozos registrados</button>
-      <button type="button" id="mRis" data-m="ris" aria-pressed="false">Riesgo al acuífero</button>
+      <button type="button" id="mAgr" data-m="agr" aria-pressed="true">% pozos agrícolas</button>
+      <button type="button" id="mAbs" data-m="abs" aria-pressed="false">Pozos de abastecimiento</button>
     </div>
   </div>
   <div class="mapgrid">
     <div style="display:grid;gap:10px;min-width:0">
       <div class="mapbox" id="mapbox"><svg id="map" viewBox="0 0 760 560" role="img" aria-label="Cartograma de Luján de Cuyo por distrito"></svg><div class="tip" id="tip" hidden></div></div>
-      <div class="legend"><span class="ramp"><span id="rLo">0 %</span><i></i><span id="rHi">100 %</span></span><span class="sym"><span class="dia"></span>Planta AYSAM</span><span class="sym"><span class="dia m"></span>Planta municipal</span><span>Área del círculo = habitantes</span></div>
+      <div class="legend"><span class="ramp"><span id="rLo">0 %</span><i></i><span id="rHi">100 %</span></span><span class="sym"><span class="dia"></span>Planta AYSAM</span><span class="sym"><span class="dia m"></span>Planta municipal</span><span>Área del círculo = pozos registrados</span></div>
     </div>
     <aside class="card" id="ficha" aria-live="polite"></aside>
   </div>
@@ -228,7 +227,7 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
   <div class="answer">
     <div class="w"><h3>Mucho, en derechos</h3><p>La dotación cruda municipal equivale a <b class="num" id="aMun">1.630</b> L/hab/día y la de las plantas de AYSAM en Luján a <b class="num" id="aAys">680</b>. Una ciudad eficiente vive con 200 a 300. Luján tiene derechos de agua superficial para varias veces su población actual.</p></div>
     <div class="d"><h3>Poco, en eficiencia</h3><p>Entre pérdidas de red, consumo alto y años secos del Río Mendoza, ese margen se evapora. Con el consumo actual y un río al 70 % de su derecho, la demanda de Luján alcanza a la oferta a mediados de la próxima década, al ritmo de crecimiento que muestra el censo.</p></div>
-    <div class="d"><h3>Crítico, en saneamiento</h3><p>El cuello de botella no es el agua que entra sino la que sale. <b class="num" id="aEfl">≈19.000 m³</b> diarios de efluente domiciliario sin red se infiltran en el mismo acuífero del que bombean <b class="num" id="aPoz">1.049</b> pozos, concentrados en los distritos con menos cloaca.</p></div>
+    <div class="d"><h3>Crítico, en saneamiento</h3><p>El cuello de botella no es el agua que entra sino la que sale. <b class="num" id="aEfl">≈19.000 m³</b> diarios de efluente domiciliario sin red van a pozos sépticos sobre el mismo acuífero del que bombean <b class="num" id="aPoz">1.049</b> pozos registrados fuera del área de cobertura cloacal, sobre todo en El Carrizal, Ugarteche y Agrelo.</p></div>
   </div>
 </section>
 
@@ -242,9 +241,9 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
     <li><b>Dotaciones superficiales:</b> planillas DGI de empadronamiento de plantas potabilizadoras del Río Mendoza (julio 2020): Luján I 2.100 l/s, Luján II 800, Anexo 583 y Potrerillos 1.100 (AYSAM); Cipolletti 850 y Santa Elena 60 (Municipio de Luján). Población beneficiada según la hoja de aforadores.</li>
     <li><b>Pozos:</b> registro provincial “Perforaciones sin área de cobertura cloacal”, 1.049 pozos en Luján de Cuyo, asignados a distrito por el domicilio. El caudal del registro se toma como capacidad declarada en m³/h; muchos pozos no declaran caudal, por lo que la extracción real puede ser mayor.</li>
     <li><b>Parte de AYSAM atribuible a Luján:</b> la población no servida por el Municipio (175.056 − 48.236) multiplicada por la dotación media de las plantas Luján I y II (680 L/hab/día) ≈ <span class="num" id="nAys">999 l/s</span>.</li>
-    <li><b>Población:</b> total departamental del Censo 2022 (175.056) y 2010 (119.888). La población por distrito es una <b>estimación</b> (Agrelo y Perdriel con dato 2022; el resto distribuido según 2010) que debe reemplazarse por radios censales INDEC 2022.</li>
-    <li><b>Cloaca:</b> 55 % de cobertura departamental (2022). La cobertura por distrito es una <b>estimación</b> calibrada a ese total, salvo los distritos marcados con * (Agrelo, 90 %), que usan un dato informado localmente; el resto se recalibra para mantener el 55 %. Efluente = población sin cloaca × consumo neto × 0,8 de retorno.</li>
-    <li><b>Riesgo al acuífero</b> = población sin cloaca × pozos registrados, normalizado. Indicador relativo para priorizar, no una medición de calidad de agua.</li>
+    <li><b>Población:</b> total departamental del Censo 2022 (175.056) y 2010 (119.888), INDEC. No se publica población por distrito.</li>
+    <li><b>Cloaca:</b> 55 % de cobertura departamental (2022), según prensa; debe confirmarse con AYSAM. No se publica cobertura por distrito. Efluente = población sin cloaca × consumo neto × 0,8 de retorno.</li>
+    <li><b>Ubicación de los distritos</b> en el mapa: aproximada, solo para orientarse. Los pozos se asignan a distrito por la localidad del domicilio en el registro; los domicilios del registro pueden no coincidir con el sitio exacto de la perforación.</li>
   </ul>
 </div>
 
@@ -267,11 +266,8 @@ const aysPob = P["Luján I"].pob + P["Luján II"].pob;
 const aysLhd = LsToLhd(aysLs, aysPob);
 const aysLujanLs = (D.pob_2022 - munPob) * aysLhd / 86400;
 const pozAbLs = D.usos.find(u => u.uso === "Abastecimiento Poblacion").ls;
-const sinCloaca = D.distritos.reduce((a, d) => a + d.sin_cloaca, 0);
+const sinCloaca = D.pob_2022 * (1 - D.cloaca);
 const crec = Math.pow(D.pob_2022 / D.pob_2010, 1 / 12) - 1;
-D.distritos.forEach(d => d.riesgo = d.sin_cloaca * d.pozos);
-const maxR = Math.max(...D.distritos.map(d => d.riesgo));
-D.distritos.forEach(d => d.riesgoN = d.riesgo / maxR);
 
 $("#hShare").innerHTML = fmt(enLujan / D.total_rio_mendoza * 100) + "<small>%</small>";
 $("#hLs").textContent = fmt(enLujan) + " l/s";
@@ -295,11 +291,10 @@ function ramp(t) {
   return `rgb(${c})`;
 }
 const METRICS = {
-  sin: {get: d => 1 - d.cloaca, t: v => v, lo: "0 %", hi: "100 %", fmt: v => fmt(v * 100) + " % sin cloaca"},
-  poz: {get: d => d.pozos, t: v => Math.sqrt(v / 370), lo: "0", hi: "370 pozos", fmt: v => fmt(v) + " pozos"},
-  ris: {get: d => d.riesgoN, t: v => Math.sqrt(v), lo: "bajo", hi: "alto", fmt: v => "riesgo " + fmt(v * 100) + "/100"},
+  agr: {get: d => d.pozos ? d.pozos_agricolas / d.pozos : 0, t: v => v, lo: "0 %", hi: "100 % agrícolas", fmt: v => fmt(v * 100) + " % agrícolas"},
+  abs: {get: d => d.pozos_abast, t: v => v / 9, lo: "0", hi: "9 pozos", fmt: v => fmt(v) + " de abastecimiento"},
 };
-let metric = "sin", selected = "El Carrizal";
+let metric = "agr", selected = "El Carrizal";
 
 /* ---------- mapa ---------- */
 const W = 760, H = 560;
@@ -308,10 +303,10 @@ const lon0 = -69.27, lon1 = -68.69, lat0 = -32.90, lat1 = -33.36;
 const piece = (bp, v) => { for (let i = 1; i < bp.length; i++) if (v <= bp[i][0] || i === bp.length - 1) { const [a, pa] = bp[i - 1], [b, pb] = bp[i]; return pa + (v - a) / (b - a) * (pb - pa); } };
 const sx = lon => piece([[-69.27, 24], [-69.0, 210], [-68.80, 660], [-68.69, 736]], lon);
 const sy = lat => piece([[32.90, 24], [33.09, 340], [33.36, 536]], -lat);
-const rOf = p => Math.sqrt(p) * 0.25;
+const rOf = n => Math.sqrt(n) * 2.7;
 
 // cartograma de Dorling: separa círculos superpuestos manteniendo la geografía aproximada
-const nodes = D.distritos.map(d => ({d, x: sx(d.lon), y: sy(d.lat), x0: sx(d.lon), y0: sy(d.lat), r: Math.max(9, rOf(d.pob))}));
+const nodes = D.distritos.map(d => ({d, x: sx(d.lon), y: sy(d.lat), x0: sx(d.lon), y0: sy(d.lat), r: Math.max(8, rOf(d.pozos))}));
 for (let it = 0; it < 400; it++) {
   for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
     const a = nodes[i], b = nodes[j]; let dx = b.x - a.x, dy = b.y - a.y; const dist = Math.hypot(dx, dy) || .01, min = a.r + b.r + 4;
@@ -341,7 +336,7 @@ function drawMap() {
   const M = METRICS[metric];
   nodes.forEach(n => {
     const v = M.get(n.d);
-    const c = el("circle", {cx: n.x, cy: n.y, r: n.r, fill: ramp(M.t(v)), class: "dist" + (n.d.nombre === selected ? " sel" : ""), tabindex: 0, role: "button", "aria-label": `${n.d.nombre}: ${fmt(n.d.pob)} habitantes, ${M.fmt(v)}`}, gd);
+    const c = el("circle", {cx: n.x, cy: n.y, r: n.r, fill: ramp(M.t(v)), class: "dist" + (n.d.nombre === selected ? " sel" : ""), tabindex: 0, role: "button", "aria-label": `${n.d.nombre}: ${fmt(n.d.pozos)} pozos registrados, ${M.fmt(v)}`}, gd);
     c.addEventListener("mousemove", e => showTip(e, n.d));
     c.addEventListener("mouseleave", hideTip);
     c.addEventListener("click", () => select(n.d.nombre));
@@ -386,7 +381,7 @@ function drawMap() {
 const tip = $("#tip");
 function showTip(e, d) {
   const box = $("#mapbox").getBoundingClientRect();
-  tip.innerHTML = `<b>${d.nombre}</b><br>${fmt(d.pob)} hab. (est.)<br>${fmt((1 - d.cloaca) * 100)} % sin cloaca · ${fmt(d.sin_cloaca)} pers.<br>${fmt(d.pozos)} pozos · ${d.pozos_abast} de abastecimiento`;
+  tip.innerHTML = `<b>${d.nombre}</b><br>${fmt(d.pozos)} pozos registrados<br>${fmt(d.pozos_agricolas)} agrícolas · ${d.pozos_abast} de abastecimiento`;
   tip.hidden = false;
   let x = e.clientX - box.left + 14, y = e.clientY - box.top + 14;
   if (x + 240 > box.width) x -= 260;
@@ -400,23 +395,17 @@ function select(name) {
 }
 function renderFicha() {
   const d = D.distritos.find(x => x.nombre === selected);
-  const sin = 1 - d.cloaca;
-  const nivel = d.riesgoN > .35 ? ["crit", "Riesgo alto"] : d.riesgoN > .1 ? ["warn", "Riesgo medio"] : ["good", "Riesgo bajo"];
-  const efl = d.sin_cloaca * 0.37 * 0.8; // m3/d con 370 L/hab/d
   $("#ficha").innerHTML = `
-    <div class="eyebrow">Distrito</div>
+    <div class="eyebrow">Distrito · registro DGI</div>
     <h3>${d.nombre}</h3>
-    <span class="pill ${nivel[0]}">${nivel[1]} al acuífero</span>
     <div class="rows">
-      <div class="row"><span>Habitantes (est. 2022)</span><span>${fmt(d.pob)}</span></div>
-      <div class="row"><span>Cobertura cloacal (${d.cloaca_fuente === "informada" ? "dato local" : "est."})</span><span>${fmt(d.cloaca * 100)} %</span></div>
-      <div class="row"><span>Personas sin cloaca</span><span>${fmt(d.sin_cloaca)}</span></div>
-      <div class="row"><span>Efluente a pozo séptico</span><span>${fmt(efl)} m³/día</span></div>
       <div class="row"><span>Pozos registrados</span><span>${fmt(d.pozos)}</span></div>
       <div class="row"><span>· agrícolas</span><span>${fmt(d.pozos_agricolas)}</span></div>
-      <div class="row"><span>· de abastecimiento</span><span>${d.pozos_abast} · ${fmt(d.abast_ls)} l/s</span></div>
+      <div class="row"><span>· de abastecimiento</span><span>${d.pozos_abast}</span></div>
+      <div class="row"><span>Caudal declarado abastecimiento</span><span>${fmt(d.abast_ls)} l/s</span></div>
+      <div class="row"><span>Caudal declarado total</span><span>${fmt(d.capacidad_ls)} l/s</span></div>
     </div>
-    <div style="display:grid;gap:6px"><span class="eyebrow">Cobertura cloacal</span><div class="bar"><b style="width:${d.cloaca * 100}%"></b></div></div>`;
+    <p class="muted" style="font-size:.85rem">Población y cobertura cloacal por distrito: sin dato oficial cargado.</p>`;
 }
 
 document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
@@ -560,10 +549,10 @@ function sim() {
 
 /* ---------- tabla ---------- */
 function tabla() {
-  const rows = [...D.distritos].sort((a, b) => b.riesgo - a.riesgo);
-  $("#tabla").innerHTML = `<thead><tr><th>Distrito</th><th>Habitantes (est.)</th><th>Cloaca</th><th>Sin cloaca</th><th>Pozos</th><th>Agrícolas</th><th>Abastecimiento</th><th>Riesgo /100</th></tr></thead><tbody>` +
-    rows.map(d => `<tr><td>${d.nombre}</td><td>${fmt(d.pob)}</td><td>${fmt(d.cloaca * 100)} %${d.cloaca_fuente === "informada" ? " *" : " (est.)"}</td><td>${fmt(d.sin_cloaca)}</td><td>${fmt(d.pozos)}</td><td>${fmt(d.pozos_agricolas)}</td><td>${d.pozos_abast}</td><td>${fmt(d.riesgoN * 100)}</td></tr>`).join("") +
-    `<tr><td>Sin localizar</td><td></td><td></td><td></td><td>${fmt(D.pozos_sin_localizar)}</td><td></td><td></td><td></td></tr></tbody>`;
+  const rows = [...D.distritos].sort((a, b) => b.pozos - a.pozos);
+  $("#tabla").innerHTML = `<thead><tr><th>Distrito</th><th>Pozos</th><th>Agrícolas</th><th>Abastecimiento</th><th>Caudal abastecimiento (l/s)</th><th>Caudal total (l/s)</th></tr></thead><tbody>` +
+    rows.map(d => `<tr><td>${d.nombre}</td><td>${fmt(d.pozos)}</td><td>${fmt(d.pozos_agricolas)}</td><td>${d.pozos_abast}</td><td>${fmt(d.abast_ls)}</td><td>${fmt(d.capacidad_ls)}</td></tr>`).join("") +
+    `<tr><td>Sin localizar</td><td>${fmt(D.pozos_sin_localizar)}</td><td></td><td></td><td></td><td></td></tr></tbody>`;
 }
 
 function renderAll() { drawMap(); renderFicha(); drawDot(); drawUso(); sim(); tabla(); }

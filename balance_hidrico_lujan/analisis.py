@@ -3,7 +3,7 @@
 Cruza:
   - Dotaciones superficiales empadronadas de plantas potabilizadoras (DGI, planillas 2020)
   - Registro de pozos de la provincia ("Perforaciones sin área de cobertura cloacal")
-  - Población (Censo 2022) y cobertura cloacal departamental
+  - Población departamental (Censo 2022) y cobertura cloacal departamental (dato de prensa, a confirmar)
 
 Genera datos_lujan.json, que consume index.html.
 Uso: python3 analisis.py
@@ -38,31 +38,24 @@ POB_2010 = 119_888
 POB_2022 = 175_056  # Censo 2022, INDEC
 COBERTURA_CLOACAL = 0.55  # 2022, departamento
 
-# Estimación por distrito (2022). Agrelo y Perdriel con dato censal 2022 publicado;
-# el resto distribuido según 2010 y crecimiento reciente. Reemplazar con radios INDEC 2022.
-# (lat, lon, población estimada, cobertura cloacal relativa antes de calibrar)
+# Ubicación aproximada de cada distrito (solo para dibujar el mapa).
+# No se publica población ni cobertura cloacal por distrito: no hay dato oficial verificado.
 DISTRITOS = {
-    "Ciudad": (-33.036, -68.878, 33000, 0.92),
-    "Carrodilla": (-32.968, -68.853, 26000, 0.88),
-    "Chacras de Coria": (-32.990, -68.880, 17000, 0.62),
-    "Perdriel": (-33.075, -68.895, 19321, 0.30),
-    "Mayor Drummond": (-33.005, -68.862, 12000, 0.82),
-    "Vistalba": (-33.025, -68.925, 14000, 0.28),
-    "La Puntilla": (-32.960, -68.875, 5000, 0.55),
-    "Agrelo": (-33.120, -68.935, 5598, 0.06),
-    "Ugarteche": (-33.205, -68.890, 9500, 0.18),
-    "El Carrizal": (-33.300, -68.760, 4500, 0.0),
-    "Industrial": (-33.010, -68.825, 6500, 0.40),
-    "Las Compuertas": (-33.035, -68.975, 3500, 0.05),
-    "Potrerillos": (-32.962, -69.200, 3000, 0.12),
-    "Cacheuta": (-33.030, -69.110, 1000, 0.0),
-    "Vertientes del Pedemonte": (-32.985, -68.955, 15137, 0.10),
-}
-
-# Cobertura cloacal informada por fuentes locales: se respeta tal cual y
-# el resto de los distritos se recalibra para mantener el 55 % departamental.
-CLOACA_INFORMADA = {
-    "Agrelo": 0.90,  # informado por el usuario (fuente local), a confirmar con AYSAM/Municipio
+    "Ciudad": (-33.036, -68.878),
+    "Carrodilla": (-32.968, -68.853),
+    "Chacras de Coria": (-32.990, -68.880),
+    "Perdriel": (-33.075, -68.895),
+    "Mayor Drummond": (-33.005, -68.862),
+    "Vistalba": (-33.025, -68.925),
+    "La Puntilla": (-32.960, -68.875),
+    "Agrelo": (-33.120, -68.935),
+    "Ugarteche": (-33.205, -68.890),
+    "El Carrizal": (-33.300, -68.760),
+    "Industrial": (-33.010, -68.825),
+    "Las Compuertas": (-33.035, -68.975),
+    "Potrerillos": (-32.962, -69.200),
+    "Cacheuta": (-33.030, -69.110),
+    "Vertientes del Pedemonte": (-32.985, -68.955),
 }
 
 ALIAS = {
@@ -98,19 +91,12 @@ def main():
     lu["ls"] = lu["Caudal"].fillna(0) / 3.6
     abast = lu["Uso"].eq("Abastecimiento Poblacion") | lu["Uso Secundario"].eq("Abastecimiento Poblacion")
 
-    # calibra la cobertura cloacal por distrito para que el total pondere 55 %
-    fijo = sum(DISTRITOS[n][2] * c for n, c in CLOACA_INFORMADA.items())
-    peso = sum(p * c for n, (_, _, p, c) in DISTRITOS.items() if n not in CLOACA_INFORMADA)
-    k = (COBERTURA_CLOACAL * POB_2022 - fijo) / peso
-
     distritos = []
-    for nombre, (lat, lon, pob, c) in DISTRITOS.items():
+    for nombre, (lat, lon) in DISTRITOS.items():
         sub = lu[lu["distrito"] == nombre]
         sa = sub[abast.loc[sub.index]]
-        cob = CLOACA_INFORMADA.get(nombre, min(0.97, c * k))
         distritos.append({
-            "nombre": nombre, "lat": lat, "lon": lon, "pob": pob,
-            "cloaca": round(cob, 3), "cloaca_fuente": "informada" if nombre in CLOACA_INFORMADA else "estimada", "sin_cloaca": round(pob * (1 - cob)),
+            "nombre": nombre, "lat": lat, "lon": lon,
             "pozos": int(len(sub)), "pozos_agricolas": int((sub["Uso"] == "Agricola").sum()),
             "pozos_abast": int(len(sa)), "abast_ls": round(float(sa["ls"].sum()), 1),
             "capacidad_ls": round(float(sub["ls"].sum()), 1),
@@ -136,9 +122,7 @@ def main():
     print(f"Pozos Luján: {len(lu)}  abastecimiento: {int(abast.sum())}  "
           f"caudal abast: {lu[abast]['ls'].sum():.0f} l/s")
     print(usos)
-    print(pd.DataFrame(distritos)[["nombre", "pob", "cloaca", "sin_cloaca", "pozos", "pozos_abast", "abast_ls"]])
-    print("calibración cloaca k =", round(k, 3),
-          "sin cloaca total:", sum(d["sin_cloaca"] for d in distritos))
+    print(pd.DataFrame(distritos)[["nombre", "pozos", "pozos_agricolas", "pozos_abast", "abast_ls"]])
 
 
 def build_html():
