@@ -59,6 +59,12 @@ DISTRITOS = {
     "Vertientes del Pedemonte": (-32.985, -68.955, 15137, 0.10),
 }
 
+# Cobertura cloacal informada por fuentes locales: se respeta tal cual y
+# el resto de los distritos se recalibra para mantener el 55 % departamental.
+CLOACA_INFORMADA = {
+    "Agrelo": 0.90,  # informado por el usuario (fuente local), a confirmar con AYSAM/Municipio
+}
+
 ALIAS = {
     "El Carrizal": ["EL CARRIZAL", "CARRIZAL", "CARRIZAL DEL MEDIO", "CARRIZAL DE ABAJO",
                     "EL CARRIZAL DE ABAJO", "DE ARRIBA"],
@@ -93,17 +99,18 @@ def main():
     abast = lu["Uso"].eq("Abastecimiento Poblacion") | lu["Uso Secundario"].eq("Abastecimiento Poblacion")
 
     # calibra la cobertura cloacal por distrito para que el total pondere 55 %
-    peso = sum(p * c for _, _, p, c in DISTRITOS.values())
-    k = COBERTURA_CLOACAL * POB_2022 / peso
+    fijo = sum(DISTRITOS[n][2] * c for n, c in CLOACA_INFORMADA.items())
+    peso = sum(p * c for n, (_, _, p, c) in DISTRITOS.items() if n not in CLOACA_INFORMADA)
+    k = (COBERTURA_CLOACAL * POB_2022 - fijo) / peso
 
     distritos = []
     for nombre, (lat, lon, pob, c) in DISTRITOS.items():
         sub = lu[lu["distrito"] == nombre]
         sa = sub[abast.loc[sub.index]]
-        cob = min(0.97, c * k)
+        cob = CLOACA_INFORMADA.get(nombre, min(0.97, c * k))
         distritos.append({
             "nombre": nombre, "lat": lat, "lon": lon, "pob": pob,
-            "cloaca": round(cob, 3), "sin_cloaca": round(pob * (1 - cob)),
+            "cloaca": round(cob, 3), "cloaca_fuente": "informada" if nombre in CLOACA_INFORMADA else "estimada", "sin_cloaca": round(pob * (1 - cob)),
             "pozos": int(len(sub)), "pozos_agricolas": int((sub["Uso"] == "Agricola").sum()),
             "pozos_abast": int(len(sa)), "abast_ls": round(float(sa["ls"].sum()), 1),
             "capacidad_ls": round(float(sub["ls"].sum()), 1),

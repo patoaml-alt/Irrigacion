@@ -243,7 +243,7 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
     <li><b>Pozos:</b> registro provincial “Perforaciones sin área de cobertura cloacal”, 1.049 pozos en Luján de Cuyo, asignados a distrito por el domicilio. El caudal del registro se toma como capacidad declarada en m³/h; muchos pozos no declaran caudal, por lo que la extracción real puede ser mayor.</li>
     <li><b>Parte de AYSAM atribuible a Luján:</b> la población no servida por el Municipio (175.056 − 48.236) multiplicada por la dotación media de las plantas Luján I y II (680 L/hab/día) ≈ <span class="num" id="nAys">999 l/s</span>.</li>
     <li><b>Población:</b> total departamental del Censo 2022 (175.056) y 2010 (119.888). La población por distrito es una <b>estimación</b> (Agrelo y Perdriel con dato 2022; el resto distribuido según 2010) que debe reemplazarse por radios censales INDEC 2022.</li>
-    <li><b>Cloaca:</b> 55 % de cobertura departamental (2022). La cobertura por distrito es una <b>estimación</b> calibrada a ese total. Efluente = población sin cloaca × consumo neto × 0,8 de retorno.</li>
+    <li><b>Cloaca:</b> 55 % de cobertura departamental (2022). La cobertura por distrito es una <b>estimación</b> calibrada a ese total, salvo los distritos marcados con * (Agrelo, 90 %), que usan un dato informado localmente; el resto se recalibra para mantener el 55 %. Efluente = población sin cloaca × consumo neto × 0,8 de retorno.</li>
     <li><b>Riesgo al acuífero</b> = población sin cloaca × pozos registrados, normalizado. Indicador relativo para priorizar, no una medición de calidad de agua.</li>
   </ul>
 </div>
@@ -409,7 +409,7 @@ function renderFicha() {
     <span class="pill ${nivel[0]}">${nivel[1]} al acuífero</span>
     <div class="rows">
       <div class="row"><span>Habitantes (est. 2022)</span><span>${fmt(d.pob)}</span></div>
-      <div class="row"><span>Cobertura cloacal (est.)</span><span>${fmt(d.cloaca * 100)} %</span></div>
+      <div class="row"><span>Cobertura cloacal (${d.cloaca_fuente === "informada" ? "dato local" : "est."})</span><span>${fmt(d.cloaca * 100)} %</span></div>
       <div class="row"><span>Personas sin cloaca</span><span>${fmt(d.sin_cloaca)}</span></div>
       <div class="row"><span>Efluente a pozo séptico</span><span>${fmt(efl)} m³/día</span></div>
       <div class="row"><span>Pozos registrados</span><span>${fmt(d.pozos)}</span></div>
@@ -561,8 +561,8 @@ function sim() {
 /* ---------- tabla ---------- */
 function tabla() {
   const rows = [...D.distritos].sort((a, b) => b.riesgo - a.riesgo);
-  $("#tabla").innerHTML = `<thead><tr><th>Distrito</th><th>Habitantes (est.)</th><th>Cloaca (est.)</th><th>Sin cloaca</th><th>Pozos</th><th>Agrícolas</th><th>Abastecimiento</th><th>Riesgo /100</th></tr></thead><tbody>` +
-    rows.map(d => `<tr><td>${d.nombre}</td><td>${fmt(d.pob)}</td><td>${fmt(d.cloaca * 100)} %</td><td>${fmt(d.sin_cloaca)}</td><td>${fmt(d.pozos)}</td><td>${fmt(d.pozos_agricolas)}</td><td>${d.pozos_abast}</td><td>${fmt(d.riesgoN * 100)}</td></tr>`).join("") +
+  $("#tabla").innerHTML = `<thead><tr><th>Distrito</th><th>Habitantes (est.)</th><th>Cloaca</th><th>Sin cloaca</th><th>Pozos</th><th>Agrícolas</th><th>Abastecimiento</th><th>Riesgo /100</th></tr></thead><tbody>` +
+    rows.map(d => `<tr><td>${d.nombre}</td><td>${fmt(d.pob)}</td><td>${fmt(d.cloaca * 100)} %${d.cloaca_fuente === "informada" ? " *" : " (est.)"}</td><td>${fmt(d.sin_cloaca)}</td><td>${fmt(d.pozos)}</td><td>${fmt(d.pozos_agricolas)}</td><td>${d.pozos_abast}</td><td>${fmt(d.riesgoN * 100)}</td></tr>`).join("") +
     `<tr><td>Sin localizar</td><td></td><td></td><td></td><td>${fmt(D.pozos_sin_localizar)}</td><td></td><td></td><td></td></tr></tbody>`;
 }
 
