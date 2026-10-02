@@ -1,0 +1,677 @@
+{
+ "pob_2010": 119888,
+ "pob_2022": 175056,
+ "cloaca": 0.55,
+ "total_rio_mendoza": 7848.5,
+ "gran_mendoza_hab": 1200000,
+ "plantas": [
+  {
+   "nombre": "Luján I",
+   "operador": "AYSAM",
+   "ls": 2100,
+   "pob": 370266,
+   "ls_2035": 3000,
+   "lat": -33.0407,
+   "lon": -68.906
+  },
+  {
+   "nombre": "Luján II",
+   "operador": "AYSAM",
+   "ls": 800,
+   "pob": 71959,
+   "ls_2035": 583,
+   "lat": -33.0417,
+   "lon": -68.8985
+  },
+  {
+   "nombre": "Anexo Luján",
+   "operador": "AYSAM",
+   "ls": 583,
+   "pob": null,
+   "ls_2035": null,
+   "lat": -33.0425,
+   "lon": -68.903
+  },
+  {
+   "nombre": "Potrerillos",
+   "operador": "AYSAM",
+   "ls": 1100,
+   "pob": 135771,
+   "ls_2035": 1100,
+   "lat": -32.9643,
+   "lon": -69.223
+  },
+  {
+   "nombre": "Cipolletti",
+   "operador": "Municipio Luján",
+   "ls": 850,
+   "pob": 45690,
+   "ls_2035": 1100,
+   "lat": -33.0437,
+   "lon": -68.9128
+  },
+  {
+   "nombre": "Santa Elena",
+   "operador": "Municipio Luján",
+   "ls": 60,
+   "pob": 2546,
+   "ls_2035": 60,
+   "lat": -33.0154,
+   "lon": -68.9266
+  }
+ ],
+ "distritos": [
+  {
+   "nombre": "Ciudad",
+   "lat": -33.036,
+   "lon": -68.878,
+   "pob": 33000,
+   "cloaca": 0.955,
+   "sin_cloaca": 1495,
+   "pozos": 11,
+   "pozos_agricolas": 5,
+   "pozos_abast": 1,
+   "abast_ls": 0.0,
+   "capacidad_ls": 175.6
+  },
+  {
+   "nombre": "Carrodilla",
+   "lat": -32.968,
+   "lon": -68.853,
+   "pob": 26000,
+   "cloaca": 0.913,
+   "sin_cloaca": 2257,
+   "pozos": 13,
+   "pozos_agricolas": 6,
+   "pozos_abast": 4,
+   "abast_ls": 83.3,
+   "capacidad_ls": 262.7
+  },
+  {
+   "nombre": "Chacras de Coria",
+   "lat": -32.99,
+   "lon": -68.88,
+   "pob": 17000,
+   "cloaca": 0.643,
+   "sin_cloaca": 6062,
+   "pozos": 16,
+   "pozos_agricolas": 9,
+   "pozos_abast": 1,
+   "abast_ls": 0.0,
+   "capacidad_ls": 156.4
+  },
+  {
+   "nombre": "Perdriel",
+   "lat": -33.075,
+   "lon": -68.895,
+   "pob": 19321,
+   "cloaca": 0.311,
+   "sin_cloaca": 13306,
+   "pozos": 91,
+   "pozos_agricolas": 47,
+   "pozos_abast": 9,
+   "abast_ls": 136.1,
+   "capacidad_ls": 2018.1
+  },
+  {
+   "nombre": "Mayor Drummond",
+   "lat": -33.005,
+   "lon": -68.862,
+   "pob": 12000,
+   "cloaca": 0.851,
+   "sin_cloaca": 1789,
+   "pozos": 21,
+   "pozos_agricolas": 17,
+   "pozos_abast": 1,
+   "abast_ls": 16.7,
+   "capacidad_ls": 534.4
+  },
+  {
+   "nombre": "Vistalba",
+   "lat": -33.025,
+   "lon": -68.925,
+   "pob": 14000,
+   "cloaca": 0.291,
+   "sin_cloaca": 9932,
+   "pozos": 27,
+   "pozos_agricolas": 24,
+   "pozos_abast": 3,
+   "abast_ls": 0.0,
+   "capacidad_ls": 616.4
+  },
+  {
+   "nombre": "La Puntilla",
+   "lat": -32.96,
+   "lon": -68.875,
+   "pob": 5000,
+   "cloaca": 0.571,
+   "sin_cloaca": 2146,
+   "pozos": 1,
+   "pozos_agricolas": 0,
+   "pozos_abast": 0,
+   "abast_ls": 0.0,
+   "capacidad_ls": 19.4
+  },
+  {
+   "nombre": "Agrelo",
+   "lat": -33.12,
+   "lon": -68.935,
+   "pob": 5598,
+   "cloaca": 0.062,
+   "sin_cloaca": 5249,
+   "pozos": 156,
+   "pozos_agricolas": 133,
+   "pozos_abast": 1,
+   "abast_ls": 0.0,
+   "capacidad_ls": 5226.7
+  },
+  {
+   "nombre": "Ugarteche",
+   "lat": -33.205,
+   "lon": -68.89,
+   "pob": 9500,
+   "cloaca": 0.187,
+   "sin_cloaca": 7725,
+   "pozos": 229,
+   "pozos_agricolas": 215,
+   "pozos_abast": 5,
+   "abast_ls": 25.8,
+   "capacidad_ls": 8430.7
+  },
+  {
+   "nombre": "El Carrizal",
+   "lat": -33.3,
+   "lon": -68.76,
+   "pob": 4500,
+   "cloaca": 0.0,
+   "sin_cloaca": 4500,
+   "pozos": 370,
+   "pozos_agricolas": 341,
+   "pozos_abast": 8,
+   "abast_ls": 65.8,
+   "capacidad_ls": 12068.5
+  },
+  {
+   "nombre": "Industrial",
+   "lat": -33.01,
+   "lon": -68.825,
+   "pob": 6500,
+   "cloaca": 0.415,
+   "sin_cloaca": 3802,
+   "pozos": 7,
+   "pozos_agricolas": 3,
+   "pozos_abast": 1,
+   "abast_ls": 0.0,
+   "capacidad_ls": 38.9
+  },
+  {
+   "nombre": "Las Compuertas",
+   "lat": -33.035,
+   "lon": -68.975,
+   "pob": 3500,
+   "cloaca": 0.052,
+   "sin_cloaca": 3318,
+   "pozos": 15,
+   "pozos_agricolas": 8,
+   "pozos_abast": 3,
+   "abast_ls": 0.0,
+   "capacidad_ls": 992.9
+  },
+  {
+   "nombre": "Potrerillos",
+   "lat": -32.962,
+   "lon": -69.2,
+   "pob": 3000,
+   "cloaca": 0.125,
+   "sin_cloaca": 2626,
+   "pozos": 9,
+   "pozos_agricolas": 3,
+   "pozos_abast": 4,
+   "abast_ls": 39.4,
+   "capacidad_ls": 187.3
+  },
+  {
+   "nombre": "Cacheuta",
+   "lat": -33.03,
+   "lon": -69.11,
+   "pob": 1000,
+   "cloaca": 0.0,
+   "sin_cloaca": 1000,
+   "pozos": 5,
+   "pozos_agricolas": 2,
+   "pozos_abast": 0,
+   "abast_ls": 0.0,
+   "capacidad_ls": 141.7
+  },
+  {
+   "nombre": "Vertientes del Pedemonte",
+   "lat": -32.985,
+   "lon": -68.955,
+   "pob": 15137,
+   "cloaca": 0.104,
+   "sin_cloaca": 13566,
+   "pozos": 0,
+   "pozos_agricolas": 0,
+   "pozos_abast": 0,
+   "abast_ls": 0.0,
+   "capacidad_ls": 0.0
+  }
+ ],
+ "pozos_total": 1049,
+ "pozos_sin_localizar": 78,
+ "usos": [
+  {
+   "uso": "Abastecimiento Poblacion",
+   "n": 47,
+   "ls": 438.3
+  },
+  {
+   "uso": "Agricola",
+   "n": 872,
+   "ls": 29546.3
+  },
+  {
+   "uso": "Comun o Domestico",
+   "n": 19,
+   "ls": 1643.6
+  },
+  {
+   "uso": "Industrial",
+   "n": 65,
+   "ls": 952.9
+  },
+  {
+   "uso": "Monitoreo acuifero subterraneo",
+   "n": 33,
+   "ls": 174.1
+  },
+  {
+   "uso": "Recreativo",
+   "n": 12,
+   "ls": 111.5
+  },
+  {
+   "uso": "Refuerzo de dotacion-A.Subterr.",
+   "n": 1,
+   "ls": 0.0
+  }
+ ],
+ "pozos_abast": [
+  {
+   "Nro Pozo": 171.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 1961,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 40.0
+  },
+  {
+   "Nro Pozo": 178.0,
+   "Persona": "PROVINCIA DE MENDOZA",
+   "distrito": "Chacras de Coria",
+   "Fecha Ejecución": 1947,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 411.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1969,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 50.0
+  },
+  {
+   "Nro Pozo": 959.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Potrerillos",
+   "Fecha Ejecución": 1975,
+   "Profundidad Bomba": 27.0,
+   "Caudal": 22.0
+  },
+  {
+   "Nro Pozo": 962.0,
+   "Persona": "E.D.E.M.S.A.",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1989,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 968.0,
+   "Persona": "GARAY BAILAC, MANUEL",
+   "distrito": "Potrerillos",
+   "Fecha Ejecución": 1982,
+   "Profundidad Bomba": 11.0,
+   "Caudal": 10.0
+  },
+  {
+   "Nro Pozo": 977.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Ugarteche",
+   "Fecha Ejecución": 1983,
+   "Profundidad Bomba": 35.0,
+   "Caudal": 90.0
+  },
+  {
+   "Nro Pozo": 996.0,
+   "Persona": "UNION VECINAL BARRIO EL ENCUENTRO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 1985,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 997.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 1987,
+   "Profundidad Bomba": 200.0,
+   "Caudal": 100.0
+  },
+  {
+   "Nro Pozo": 1045.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Potrerillos",
+   "Fecha Ejecución": 1991,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1061.0,
+   "Persona": "UNION VECINAL PUEBLO UNIDAD",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1993,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 84.0
+  },
+  {
+   "Nro Pozo": 1082.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Las Compuertas",
+   "Fecha Ejecución": 1994,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1097.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 1996,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 70.0
+  },
+  {
+   "Nro Pozo": 1122.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Mayor Drummond",
+   "Fecha Ejecución": 1997,
+   "Profundidad Bomba": 35.0,
+   "Caudal": 60.0
+  },
+  {
+   "Nro Pozo": 1128.0,
+   "Persona": "VECINOS BARRIO NUESTRA SEÑORA DEL ROSARIO",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1998,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1130.0,
+   "Persona": "DIRECCION GENERAL DE ESCUELAS",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 1998,
+   "Profundidad Bomba": 123.0,
+   "Caudal": 3.0
+  },
+  {
+   "Nro Pozo": 1131.0,
+   "Persona": "DIRECCION GENERAL DE ESCUELAS",
+   "distrito": "Ugarteche",
+   "Fecha Ejecución": 1999,
+   "Profundidad Bomba": 65.0,
+   "Caudal": 3.0
+  },
+  {
+   "Nro Pozo": 1658.0,
+   "Persona": "DIRECCION GENERAL DE ESCUELAS",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 1999,
+   "Profundidad Bomba": 58.0,
+   "Caudal": 3.0
+  },
+  {
+   "Nro Pozo": 1659.0,
+   "Persona": "DIRECCION GENERAL DE ESCUELAS",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1998,
+   "Profundidad Bomba": 35.0,
+   "Caudal": 3.0
+  },
+  {
+   "Nro Pozo": 1660.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 1999,
+   "Profundidad Bomba": 60.0,
+   "Caudal": 10.0
+  },
+  {
+   "Nro Pozo": 1686.0,
+   "Persona": "LICEO RUGBY CLUB",
+   "distrito": "Carrodilla",
+   "Fecha Ejecución": 2000,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 150.0
+  },
+  {
+   "Nro Pozo": 1706.0,
+   "Persona": "AZARETTO, ROBERTO ANGEL",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2003,
+   "Profundidad Bomba": 130.0,
+   "Caudal": 90.0
+  },
+  {
+   "Nro Pozo": 1737.0,
+   "Persona": "PROVINCIA DE MENDOZA",
+   "distrito": "Potrerillos",
+   "Fecha Ejecución": 2005,
+   "Profundidad Bomba": 250.0,
+   "Caudal": 110.0
+  },
+  {
+   "Nro Pozo": 1779.0,
+   "Persona": "PANELLA, LUIS INOCENCIO-SUCESION",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 2007,
+   "Profundidad Bomba": 80.0,
+   "Caudal": 90.0
+  },
+  {
+   "Nro Pozo": 1799.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 1999,
+   "Profundidad Bomba": 57.0,
+   "Caudal": 180.0
+  },
+  {
+   "Nro Pozo": 1803.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Carrodilla",
+   "Fecha Ejecución": 2008,
+   "Profundidad Bomba": 146.0,
+   "Caudal": 150.0
+  },
+  {
+   "Nro Pozo": 1806.0,
+   "Persona": "UNION VECINAL BARRIO EL ENCUENTRO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2009,
+   "Profundidad Bomba": 82.0,
+   "Caudal": 260.0
+  },
+  {
+   "Nro Pozo": 1822.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Ugarteche",
+   "Fecha Ejecución": 2010,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1846.0,
+   "Persona": "MINISTERIO DE JUSTICIA, SEGURIDAD Y DERECHOS HUMANOS DE LANACION",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 2011,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1847.0,
+   "Persona": "MINISTERIO DE JUSTICIA, SEGURIDAD Y DERECHOS HUMANOS DE LANACION",
+   "distrito": "Sin localizar",
+   "Fecha Ejecución": 2011,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1850.0,
+   "Persona": "PROVINCIA DE MENDOZA",
+   "distrito": "Las Compuertas",
+   "Fecha Ejecución": 2011,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1861.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2013,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1863.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Carrodilla",
+   "Fecha Ejecución": 2013,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1872.0,
+   "Persona": "PROVINCIA DE MENDOZA",
+   "distrito": "Industrial",
+   "Fecha Ejecución": 2014,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1881.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Vistalba",
+   "Fecha Ejecución": 2015,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1883.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Vistalba",
+   "Fecha Ejecución": 2015,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1884.0,
+   "Persona": "UNIÓN VECINAL CORAL CARRIZAL",
+   "distrito": "El Carrizal",
+   "Fecha Ejecución": 2015,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1885.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Ugarteche",
+   "Fecha Ejecución": 2015,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1898.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Agrelo",
+   "Fecha Ejecución": 2016,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1906.0,
+   "Persona": "AYSAM S.A.",
+   "distrito": "Ugarteche",
+   "Fecha Ejecución": 2017,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1909.0,
+   "Persona": "VIEYTES EMPRENDIMIENTOS S.A.",
+   "distrito": "Carrodilla",
+   "Fecha Ejecución": 2017,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1911.0,
+   "Persona": "PAMA S.A.",
+   "distrito": "Las Compuertas",
+   "Fecha Ejecución": 2017,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1913.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Vistalba",
+   "Fecha Ejecución": 2017,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1932.0,
+   "Persona": "PROVINCIA DE MENDOZA",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2018,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1945.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2019,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1946.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Perdriel",
+   "Fecha Ejecución": 2019,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  },
+  {
+   "Nro Pozo": 1949.0,
+   "Persona": "MUNICIPALIDAD DE LUJAN DE CUYO",
+   "distrito": "Ciudad",
+   "Fecha Ejecución": 2019,
+   "Profundidad Bomba": 0.0,
+   "Caudal": 0.0
+  }
+ ]
+}

@@ -1,0 +1,573 @@
+<title>Agua y Población Luján de Cuyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna editorial de 1120px; el mapa-cartograma es la pieza central, flanqueado por la ficha del distrito. */
+:root{
+  --bg:#edf1f2; --surface:#f8fafa; --ink:#0f2129; --ink-2:#47585f; --ink-3:#6d7c82;
+  --rule:#cfd8db; --water:#1c5cab; --water-soft:#cde2fb; --dry:#b8661c; --dry-soft:#f6dfc0;
+  --mountain:#dfe4e2; --mountain-2:#cfd6d3;
+  --good:#1d7a4f; --warn:#a86500; --crit:#c0392b;
+  --ramp-0:#f6e6cf; --ramp-1:#ecc28c; --ramp-2:#db9447; --ramp-3:#b8661c; --ramp-4:#7a3f0e;
+  --cap:#1c5cab; --pop:#0f2129;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d171c; --surface:#132129; --ink:#e7eef0; --ink-2:#a9b8bd; --ink-3:#7f9095;
+  --rule:#26363d; --water:#5598e7; --water-soft:#183553; --dry:#e39a52; --dry-soft:#3d2a17;
+  --mountain:#16242b; --mountain-2:#1c2c34;
+  --good:#4cc08a; --warn:#e3a43a; --crit:#ef6b5e;
+  --ramp-0:#3a2a1c; --ramp-1:#6e4520; --ramp-2:#a8662a; --ramp-3:#de9147; --ramp-4:#f6c58a;
+  --cap:#5598e7; --pop:#e7eef0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d171c; --surface:#132129; --ink:#e7eef0; --ink-2:#a9b8bd; --ink-3:#7f9095;
+  --rule:#26363d; --water:#5598e7; --water-soft:#183553; --dry:#e39a52; --dry-soft:#3d2a17;
+  --mountain:#16242b; --mountain-2:#1c2c34;
+  --good:#4cc08a; --warn:#e3a43a; --crit:#ef6b5e;
+  --ramp-0:#3a2a1c; --ramp-1:#6e4520; --ramp-2:#a8662a; --ramp-3:#de9147; --ramp-4:#f6c58a;
+  --cap:#5598e7; --pop:#e7eef0; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.02}
+h1{font-size:clamp(2.4rem,6.4vw,4.9rem);font-weight:850;font-stretch:118%;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:800;font-stretch:112%;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:700;font-stretch:100%}
+p{margin:0;max-width:65ch}
+.eyebrow{font-family:var(--f-data);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}
+section{display:grid;gap:22px;padding-block:44px;border-top:1px solid var(--rule)}
+
+/* hero */
+.hero{display:grid;gap:22px;padding-block:8px 36px;border-top:none}
+.hero h1 em{font-style:normal;color:var(--water)}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:60ch}
+.thesis{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:end;padding:22px 0 0;border-top:3px solid var(--ink)}
+.thesis .big{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:clamp(4.5rem,15vw,9.5rem);line-height:.82;color:var(--water);letter-spacing:-.04em}
+.thesis .big small{font-size:.42em;letter-spacing:0}
+.thesis p{font-size:1.15rem;padding-bottom:10px}
+.thesis p b{font-weight:600}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-block:1px solid var(--rule)}
+.kpi{padding:18px 18px 18px 0;display:grid;gap:4px;align-content:start}
+.kpi+.kpi{padding-left:18px;border-left:1px solid var(--rule)}
+.kpi .v{font-family:var(--f-display);font-weight:800;font-stretch:110%;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1;font-variant-numeric:tabular-nums}
+.kpi .v.w{color:var(--water)} .kpi .v.d{color:var(--dry)}
+.kpi .l{font-size:.92rem;color:var(--ink-2);line-height:1.35}
+@media (max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(3){border-left:none;padding-left:0}.kpi:nth-child(n+3){border-top:1px solid var(--rule)}}
+@media (max-width:460px){.thesis{grid-template-columns:1fr}}
+
+/* map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media (max-width:900px){.mapgrid{grid-template-columns:minmax(0,1fr)}}
+.mapbox{background:var(--surface);border:1px solid var(--rule);border-radius:6px;position:relative;overflow:hidden}
+.mapbox svg{display:block;width:100%;height:auto}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:999px;padding:3px;background:var(--surface);flex-wrap:wrap}
+.seg button{font:500 .85rem var(--f-data);border:0;background:transparent;color:var(--ink-2);padding:7px 13px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible,.chip:focus-visible,input:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:.8rem var(--f-data);color:var(--ink-2)}
+.ramp{display:inline-flex;align-items:center;gap:6px}
+.ramp i{display:inline-block;width:120px;height:10px;border-radius:2px;background:linear-gradient(90deg,var(--ramp-0),var(--ramp-1),var(--ramp-2),var(--ramp-3),var(--ramp-4))}
+.sym{display:inline-flex;align-items:center;gap:6px}
+.dia{width:11px;height:11px;transform:rotate(45deg);background:var(--water);display:inline-block;border:2px solid var(--surface);outline:1px solid var(--water)}
+.dia.m{background:var(--surface)}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:18px;display:grid;gap:12px;min-width:0}
+.card h3{font-size:1.5rem;font-weight:800;font-stretch:112%}
+.rows{display:grid;gap:0}
+.row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--rule);font-size:.93rem}
+.row:last-child{border-bottom:none}
+.row span:last-child{font-family:var(--f-data);font-variant-numeric:tabular-nums;text-align:right}
+.bar{height:8px;border-radius:2px;background:var(--water-soft);overflow:hidden}
+.bar b{display:block;height:100%;background:var(--water);border-radius:0 2px 2px 0}
+.pill{display:inline-block;font:500 .74rem var(--f-data);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid currentColor;width:max-content}
+.pill.crit{color:var(--crit)} .pill.warn{color:var(--warn)} .pill.good{color:var(--good)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:.8rem/1.4 var(--f-data);padding:8px 10px;border-radius:4px;max-width:230px;z-index:2}
+.tip b{font-family:var(--f-display);font-size:.95rem}
+svg text{font-family:var(--f-data)}
+.lbl{font-size:11px;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3.5px;stroke-linejoin:round;pointer-events:none}
+.lbl.n{font-family:var(--f-display);font-weight:700;font-size:12px}
+.dist{cursor:pointer;stroke:var(--surface);stroke-width:2}
+.dist:hover,.dist.sel{stroke:var(--ink);stroke-width:2.5}
+
+/* charts */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:860px){.two{grid-template-columns:minmax(0,1fr)}}
+.chart{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px;position:relative;min-width:0}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.axis{font-size:11px;fill:var(--ink-3)}
+.grid line{stroke:var(--rule);stroke-width:1}
+.ref{stroke:var(--ink-3);stroke-dasharray:3 3;stroke-width:1}
+.reflbl{font-size:10.5px;fill:var(--ink-2)}
+.vlbl{font-size:12px;fill:var(--ink);font-weight:500}
+.cat{font-size:12.5px;fill:var(--ink)}
+
+/* simulador */
+.sim{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.sim{grid-template-columns:minmax(0,1fr)}}
+.ctl{display:grid;gap:18px}
+.ctl label{display:grid;gap:6px;font-size:.92rem}
+.ctl label span.top{display:flex;justify-content:space-between;gap:8px}
+.ctl output{font-family:var(--f-data);font-weight:500;color:var(--water)}
+input[type=range]{width:100%;accent-color:var(--water)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 .8rem var(--f-data);padding:6px 11px;border:1px solid var(--rule);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--ink-3)}
+.verdict{font-family:var(--f-display);font-size:clamp(1.3rem,2.6vw,1.8rem);font-weight:750;font-stretch:108%;line-height:1.15}
+.verdict .y{color:var(--dry)} .verdict .ok{color:var(--good)}
+
+.answer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+@media (max-width:860px){.answer{grid-template-columns:minmax(0,1fr)}}
+.answer div{display:grid;gap:8px;align-content:start;border-top:3px solid var(--ink);padding-top:14px}
+.answer div.w{border-color:var(--water)} .answer div.d{border-color:var(--dry)}
+.answer h3{font-size:1.3rem;font-weight:800;font-stretch:110%}
+
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font:500 .72rem var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+td{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:var(--ink-2)}
+.notes{font-size:.88rem;color:var(--ink-2);display:grid;gap:8px}
+.notes li{max-width:90ch}
+.notes a{color:var(--water)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Balance hídrico poblacional · Departamento de Luján de Cuyo · Mendoza</div>
+  <h1>El agua de Mendoza <em>se potabiliza en Luján.</em> ¿Le alcanza a Luján?</h1>
+  <p class="lede">Cruzamos las dotaciones superficiales empadronadas de las plantas de AYSAM y del Municipio, el registro de pozos y la cobertura cloacal con la población del Censo 2022. El resultado: hay mucha agua en el papel y un problema serio debajo de la tierra.</p>
+  <div class="thesis">
+    <div class="big num" id="hShare">70<small>%</small></div>
+    <p>del agua cruda que se potabiliza para el Gran Mendoza desde el Río Mendoza se capta en plantas ubicadas en Luján de Cuyo: <b class="num" id="hLs">5.493 l/s</b> de <span class="num" id="hTot">7.848,5 l/s</span>. Luján es la fábrica de agua potable de 1,2 millones de mendocinos.</p>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><div class="v num" id="kPob">175.056</div><div class="l">habitantes (Censo 2022). <b id="kGrow">+46 %</b> desde 2010, el mayor crecimiento de la provincia.</div></div>
+  <div class="kpi"><div class="v w num" id="kDot">1.630</div><div class="l">litros por habitante y día de dotación cruda en las plantas municipales (Cipolletti y Santa Elena).</div></div>
+  <div class="kpi"><div class="v d num" id="kSin">78.800</div><div class="l">personas sin red cloacal (55 % de cobertura). Su efluente va a pozos sépticos.</div></div>
+  <div class="kpi"><div class="v d num" id="kPoz">1.049</div><div class="l">pozos registrados en Luján en zonas sin cobertura cloacal. 47 abastecen a población.</div></div>
+</div>
+
+<section id="mapa">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Mapa · cartograma por distrito</div>
+    <h2>Donde vive la gente, donde está el agua y donde falta la cloaca</h2>
+    <p class="muted">Cada círculo es un distrito, con área proporcional a su población. Los rombos son las plantas potabilizadoras, sobre el Río Mendoza. Tocá un distrito para ver su ficha.</p>
+  </div>
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Color del mapa">
+      <button type="button" id="mSin" data-m="sin" aria-pressed="true">Sin cloaca (%)</button>
+      <button type="button" id="mPoz" data-m="poz" aria-pressed="false">Pozos registrados</button>
+      <button type="button" id="mRis" data-m="ris" aria-pressed="false">Riesgo al acuífero</button>
+    </div>
+  </div>
+  <div class="mapgrid">
+    <div style="display:grid;gap:10px;min-width:0">
+      <div class="mapbox" id="mapbox"><svg id="map" viewBox="0 0 760 560" role="img" aria-label="Cartograma de Luján de Cuyo por distrito"></svg><div class="tip" id="tip" hidden></div></div>
+      <div class="legend"><span class="ramp"><span id="rLo">0 %</span><i></i><span id="rHi">100 %</span></span><span class="sym"><span class="dia"></span>Planta AYSAM</span><span class="sym"><span class="dia m"></span>Planta municipal</span><span>Área del círculo = habitantes</span></div>
+    </div>
+    <aside class="card" id="ficha" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section id="balance">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Balance · litros por habitante y día</div>
+    <h2>En el papel, sobra agua</h2>
+    <p class="muted">Dotación empadronada de cada sistema dividida por la población que declara abastecer. Las líneas marcan referencias de consumo.</p>
+  </div>
+  <div class="two">
+    <div class="chart" id="cDot"></div>
+    <div class="chart" id="cUso"></div>
+  </div>
+</section>
+
+<section id="sim">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Simulador · oferta vs. demanda 2010–2050</div>
+    <h2>¿Hasta cuándo alcanza?</h2>
+    <p class="muted">Oferta atribuible a la población de Luján: plantas municipales, la parte de AYSAM que corresponde a los vecinos de Luján y los pozos de abastecimiento. Mové los supuestos para ver cuándo la población supera lo que el sistema puede abastecer.</p>
+  </div>
+  <div class="sim">
+    <div class="ctl card">
+      <div class="chips" role="group" aria-label="Escenarios">
+        <button type="button" class="chip" data-p="norma">Uso eficiente</button>
+        <button type="button" class="chip" data-p="actual">Consumo actual</button>
+        <button type="button" class="chip" data-p="seco">Año seco</button>
+      </div>
+      <label for="sDot"><span class="top">Consumo neto por habitante <output id="oDot"></output></span><input type="range" id="sDot" min="150" max="600" step="10" value="370"></label>
+      <label for="sPer"><span class="top">Pérdidas en la red <output id="oPer"></output></span><input type="range" id="sPer" min="10" max="60" step="1" value="35"></label>
+      <label for="sRio"><span class="top">Caudal del río respecto al derecho <output id="oRio"></output></span><input type="range" id="sRio" min="40" max="100" step="5" value="100"></label>
+      <label for="sCre"><span class="top">Crecimiento anual de población <output id="oCre"></output></span><input type="range" id="sCre" min="0.5" max="4.5" step="0.1" value="3.2"></label>
+    </div>
+    <div style="display:grid;gap:14px;min-width:0">
+      <div class="verdict" id="verdict"></div>
+      <div class="chart" id="cSim"></div>
+      <div class="rows card" id="simRows"></div>
+    </div>
+  </div>
+</section>
+
+<section id="respuesta">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Diagnóstico</div>
+    <h2>¿Es mucho o poco? Las tres respuestas</h2>
+  </div>
+  <div class="answer">
+    <div class="w"><h3>Mucho, en derechos</h3><p>La dotación cruda municipal equivale a <b class="num" id="aMun">1.630</b> L/hab/día y la de las plantas de AYSAM en Luján a <b class="num" id="aAys">680</b>. Una ciudad eficiente vive con 200 a 300. Luján tiene derechos de agua superficial para varias veces su población actual.</p></div>
+    <div class="d"><h3>Poco, en eficiencia</h3><p>Entre pérdidas de red, consumo alto y años secos del Río Mendoza, ese margen se evapora. Con el consumo actual y un río al 70 % de su derecho, la demanda de Luján alcanza a la oferta a mediados de la próxima década, al ritmo de crecimiento que muestra el censo.</p></div>
+    <div class="d"><h3>Crítico, en saneamiento</h3><p>El cuello de botella no es el agua que entra sino la que sale. <b class="num" id="aEfl">≈19.000 m³</b> diarios de efluente domiciliario sin red se infiltran en el mismo acuífero del que bombean <b class="num" id="aPoz">1.049</b> pozos, concentrados en los distritos con menos cloaca.</p></div>
+  </div>
+</section>
+
+<section id="datos">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Tabla y método</div>
+    <h2>Los números detrás del mapa</h2>
+  </div>
+  <div class="scroll"><table id="tabla"></table></div>
+  <ul class="notes">
+    <li><b>Dotaciones superficiales:</b> planillas DGI de empadronamiento de plantas potabilizadoras del Río Mendoza (julio 2020): Luján I 2.100 l/s, Luján II 800, Anexo 583 y Potrerillos 1.100 (AYSAM); Cipolletti 850 y Santa Elena 60 (Municipio de Luján). Población beneficiada según la hoja de aforadores.</li>
+    <li><b>Pozos:</b> registro provincial “Perforaciones sin área de cobertura cloacal”, 1.049 pozos en Luján de Cuyo, asignados a distrito por el domicilio. El caudal del registro se toma como capacidad declarada en m³/h; muchos pozos no declaran caudal, por lo que la extracción real puede ser mayor.</li>
+    <li><b>Parte de AYSAM atribuible a Luján:</b> la población no servida por el Municipio (175.056 − 48.236) multiplicada por la dotación media de las plantas Luján I y II (680 L/hab/día) ≈ <span class="num" id="nAys">999 l/s</span>.</li>
+    <li><b>Población:</b> total departamental del Censo 2022 (175.056) y 2010 (119.888). La población por distrito es una <b>estimación</b> (Agrelo y Perdriel con dato 2022; el resto distribuido según 2010) que debe reemplazarse por radios censales INDEC 2022.</li>
+    <li><b>Cloaca:</b> 55 % de cobertura departamental (2022). La cobertura por distrito es una <b>estimación</b> calibrada a ese total. Efluente = población sin cloaca × consumo neto × 0,8 de retorno.</li>
+    <li><b>Riesgo al acuífero</b> = población sin cloaca × pozos registrados, normalizado. Indicador relativo para priorizar, no una medición de calidad de agua.</li>
+  </ul>
+</div>
+
+<script>
+const D = {"pob_2010":119888,"pob_2022":175056,"cloaca":0.55,"total_rio_mendoza":7848.5,"gran_mendoza_hab":1200000,"plantas":[{"nombre":"Luján I","operador":"AYSAM","ls":2100,"pob":370266,"ls_2035":3000,"lat":-33.0407,"lon":-68.906},{"nombre":"Luján II","operador":"AYSAM","ls":800,"pob":71959,"ls_2035":583,"lat":-33.0417,"lon":-68.8985},{"nombre":"Anexo Luján","operador":"AYSAM","ls":583,"pob":null,"ls_2035":null,"lat":-33.0425,"lon":-68.903},{"nombre":"Potrerillos","operador":"AYSAM","ls":1100,"pob":135771,"ls_2035":1100,"lat":-32.9643,"lon":-69.223},{"nombre":"Cipolletti","operador":"Municipio Luján","ls":850,"pob":45690,"ls_2035":1100,"lat":-33.0437,"lon":-68.9128},{"nombre":"Santa Elena","operador":"Municipio Luján","ls":60,"pob":2546,"ls_2035":60,"lat":-33.0154,"lon":-68.9266}],"distritos":[{"nombre":"Ciudad","lat":-33.036,"lon":-68.878,"pob":33000,"cloaca":0.955,"sin_cloaca":1495,"pozos":11,"pozos_agricolas":5,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":175.6},{"nombre":"Carrodilla","lat":-32.968,"lon":-68.853,"pob":26000,"cloaca":0.913,"sin_cloaca":2257,"pozos":13,"pozos_agricolas":6,"pozos_abast":4,"abast_ls":83.3,"capacidad_ls":262.7},{"nombre":"Chacras de Coria","lat":-32.99,"lon":-68.88,"pob":17000,"cloaca":0.643,"sin_cloaca":6062,"pozos":16,"pozos_agricolas":9,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":156.4},{"nombre":"Perdriel","lat":-33.075,"lon":-68.895,"pob":19321,"cloaca":0.311,"sin_cloaca":13306,"pozos":91,"pozos_agricolas":47,"pozos_abast":9,"abast_ls":136.1,"capacidad_ls":2018.1},{"nombre":"Mayor Drummond","lat":-33.005,"lon":-68.862,"pob":12000,"cloaca":0.851,"sin_cloaca":1789,"pozos":21,"pozos_agricolas":17,"pozos_abast":1,"abast_ls":16.7,"capacidad_ls":534.4},{"nombre":"Vistalba","lat":-33.025,"lon":-68.925,"pob":14000,"cloaca":0.291,"sin_cloaca":9932,"pozos":27,"pozos_agricolas":24,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":616.4},{"nombre":"La Puntilla","lat":-32.96,"lon":-68.875,"pob":5000,"cloaca":0.571,"sin_cloaca":2146,"pozos":1,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":19.4},{"nombre":"Agrelo","lat":-33.12,"lon":-68.935,"pob":5598,"cloaca":0.062,"sin_cloaca":5249,"pozos":156,"pozos_agricolas":133,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":5226.7},{"nombre":"Ugarteche","lat":-33.205,"lon":-68.89,"pob":9500,"cloaca":0.187,"sin_cloaca":7725,"pozos":229,"pozos_agricolas":215,"pozos_abast":5,"abast_ls":25.8,"capacidad_ls":8430.7},{"nombre":"El Carrizal","lat":-33.3,"lon":-68.76,"pob":4500,"cloaca":0.0,"sin_cloaca":4500,"pozos":370,"pozos_agricolas":341,"pozos_abast":8,"abast_ls":65.8,"capacidad_ls":12068.5},{"nombre":"Industrial","lat":-33.01,"lon":-68.825,"pob":6500,"cloaca":0.415,"sin_cloaca":3802,"pozos":7,"pozos_agricolas":3,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":38.9},{"nombre":"Las Compuertas","lat":-33.035,"lon":-68.975,"pob":3500,"cloaca":0.052,"sin_cloaca":3318,"pozos":15,"pozos_agricolas":8,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":992.9},{"nombre":"Potrerillos","lat":-32.962,"lon":-69.2,"pob":3000,"cloaca":0.125,"sin_cloaca":2626,"pozos":9,"pozos_agricolas":3,"pozos_abast":4,"abast_ls":39.4,"capacidad_ls":187.3},{"nombre":"Cacheuta","lat":-33.03,"lon":-69.11,"pob":1000,"cloaca":0.0,"sin_cloaca":1000,"pozos":5,"pozos_agricolas":2,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":141.7},{"nombre":"Vertientes del Pedemonte","lat":-32.985,"lon":-68.955,"pob":15137,"cloaca":0.104,"sin_cloaca":13566,"pozos":0,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":0.0}],"pozos_total":1049,"pozos_sin_localizar":78,"usos":[{"uso":"Abastecimiento Poblacion","n":47,"ls":438.3},{"uso":"Agricola","n":872,"ls":29546.3},{"uso":"Comun o Domestico","n":19,"ls":1643.6},{"uso":"Industrial","n":65,"ls":952.9},{"uso":"Monitoreo acuifero subterraneo","n":33,"ls":174.1},{"uso":"Recreativo","n":12,"ls":111.5},{"uso":"Refuerzo de dotacion-A.Subterr.","n":1,"ls":0.0}]};
+const $ = s => document.querySelector(s);
+const fmt = (n, d = 0) => n.toLocaleString("es-AR", {minimumFractionDigits: d, maximumFractionDigits: d});
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const LsToLhd = (ls, pob) => ls * 86400 / pob;
+
+/* ---------- derivados ---------- */
+const P = Object.fromEntries(D.plantas.map(p => [p.nombre, p]));
+const enLujan = D.plantas.reduce((a, p) => a + p.ls, 0);
+const munLs = P["Cipolletti"].ls + P["Santa Elena"].ls;
+const munPob = P["Cipolletti"].pob + P["Santa Elena"].pob;
+const aysLs = P["Luján I"].ls + P["Luján II"].ls + P["Anexo Luján"].ls;
+const aysPob = P["Luján I"].pob + P["Luján II"].pob;
+const aysLhd = LsToLhd(aysLs, aysPob);
+const aysLujanLs = (D.pob_2022 - munPob) * aysLhd / 86400;
+const pozAbLs = D.usos.find(u => u.uso === "Abastecimiento Poblacion").ls;
+const sinCloaca = D.distritos.reduce((a, d) => a + d.sin_cloaca, 0);
+const crec = Math.pow(D.pob_2022 / D.pob_2010, 1 / 12) - 1;
+D.distritos.forEach(d => d.riesgo = d.sin_cloaca * d.pozos);
+const maxR = Math.max(...D.distritos.map(d => d.riesgo));
+D.distritos.forEach(d => d.riesgoN = d.riesgo / maxR);
+
+$("#hShare").innerHTML = fmt(enLujan / D.total_rio_mendoza * 100) + "<small>%</small>";
+$("#hLs").textContent = fmt(enLujan) + " l/s";
+$("#hTot").textContent = fmt(D.total_rio_mendoza, 1) + " l/s";
+$("#kPob").textContent = fmt(D.pob_2022);
+$("#kGrow").textContent = "+" + fmt((D.pob_2022 / D.pob_2010 - 1) * 100) + " %";
+$("#kDot").textContent = fmt(LsToLhd(munLs, munPob));
+$("#kSin").textContent = fmt(Math.round(sinCloaca / 100) * 100);
+$("#kPoz").textContent = fmt(D.pozos_total);
+$("#aMun").textContent = fmt(LsToLhd(munLs, munPob));
+$("#aAys").textContent = fmt(aysLhd);
+$("#aPoz").textContent = fmt(D.pozos_total);
+$("#nAys").textContent = fmt(aysLujanLs) + " l/s";
+
+/* ---------- color ---------- */
+function hex2rgb(h) { h = h.replace("#", ""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+function ramp(t) {
+  const stops = [0, 1, 2, 3, 4].map(i => hex2rgb(css("--ramp-" + i)));
+  t = Math.max(0, Math.min(1, t)) * 4; const i = Math.min(3, Math.floor(t)), f = t - i;
+  const c = stops[i].map((v, k) => Math.round(v + (stops[i + 1][k] - v) * f));
+  return `rgb(${c})`;
+}
+const METRICS = {
+  sin: {get: d => 1 - d.cloaca, t: v => v, lo: "0 %", hi: "100 %", fmt: v => fmt(v * 100) + " % sin cloaca"},
+  poz: {get: d => d.pozos, t: v => Math.sqrt(v / 370), lo: "0", hi: "370 pozos", fmt: v => fmt(v) + " pozos"},
+  ris: {get: d => d.riesgoN, t: v => Math.sqrt(v), lo: "bajo", hi: "alto", fmt: v => "riesgo " + fmt(v * 100) + "/100"},
+};
+let metric = "sin", selected = "El Carrizal";
+
+/* ---------- mapa ---------- */
+const W = 760, H = 560;
+const lon0 = -69.27, lon1 = -68.69, lat0 = -32.90, lat1 = -33.36;
+// escala por tramos: amplía el núcleo urbano (Chacras–Ciudad–Carrodilla) donde vive la mayoría
+const piece = (bp, v) => { for (let i = 1; i < bp.length; i++) if (v <= bp[i][0] || i === bp.length - 1) { const [a, pa] = bp[i - 1], [b, pb] = bp[i]; return pa + (v - a) / (b - a) * (pb - pa); } };
+const sx = lon => piece([[-69.27, 24], [-69.0, 210], [-68.80, 660], [-68.69, 736]], lon);
+const sy = lat => piece([[32.90, 24], [33.09, 340], [33.36, 536]], -lat);
+const rOf = p => Math.sqrt(p) * 0.25;
+
+// cartograma de Dorling: separa círculos superpuestos manteniendo la geografía aproximada
+const nodes = D.distritos.map(d => ({d, x: sx(d.lon), y: sy(d.lat), x0: sx(d.lon), y0: sy(d.lat), r: Math.max(9, rOf(d.pob))}));
+for (let it = 0; it < 400; it++) {
+  for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+    const a = nodes[i], b = nodes[j]; let dx = b.x - a.x, dy = b.y - a.y; const dist = Math.hypot(dx, dy) || .01, min = a.r + b.r + 4;
+    if (dist < min) { const m = (min - dist) / 2; dx /= dist; dy /= dist; a.x -= dx * m; a.y -= dy * m; b.x += dx * m; b.y += dy * m; }
+  }
+  nodes.forEach(n => { n.x += (n.x0 - n.x) * 0.02; n.y += (n.y0 - n.y) * 0.02; n.x = Math.max(n.r + 4, Math.min(W - n.r - 4, n.x)); n.y = Math.max(n.r + 4, Math.min(H - n.r - 4, n.y)); });
+}
+
+const RIO = [[-32.955, -69.27], [-32.962, -69.205], [-33.0, -69.16], [-33.03, -69.115], [-33.035, -69.04], [-33.04, -68.975], [-33.045, -68.92], [-33.052, -68.885], [-33.045, -68.84], [-33.02, -68.79], [-32.975, -68.74], [-32.93, -68.69]];
+
+function drawMap() {
+  const svg = $("#map"); svg.innerHTML = "";
+  // precordillera
+  const g0 = el("g", {}, svg);
+  el("path", {d: `M0 0 H${sx(-69.02)} C${sx(-68.99)} 140 ${sx(-69.05)} 300 ${sx(-68.99)} ${H} H0Z`, fill: css("--mountain")}, g0);
+  el("path", {d: `M0 0 H${sx(-69.12)} C${sx(-69.10)} 160 ${sx(-69.16)} 330 ${sx(-69.10)} ${H} H0Z`, fill: css("--mountain-2")}, g0);
+  const t1 = el("text", {x: 18, y: H - 18, class: "lbl", style: "fill:var(--ink-3);font-size:10.5px;letter-spacing:.14em"}, g0); t1.textContent = "PRECORDILLERA";
+  const t2 = el("text", {x: W - 18, y: H - 18, "text-anchor": "end", class: "lbl", style: "fill:var(--ink-3);font-size:10.5px;letter-spacing:.14em"}, g0); t2.textContent = "OASIS NORTE  →  MAIPÚ";
+  // río
+  const pts = RIO.map(([la, lo]) => [sx(lo), sy(la)]);
+  const d = "M" + pts.map(p => p.join(" ")).join(" L");
+  el("path", {d, fill: "none", stroke: css("--water-soft"), "stroke-width": 14, "stroke-linecap": "round", "stroke-linejoin": "round"}, svg);
+  el("path", {d, fill: "none", stroke: css("--water"), "stroke-width": 2.5, "stroke-linecap": "round", "stroke-linejoin": "round"}, svg);
+  const rl = el("text", {x: sx(-69.13), y: sy(-33.06) + 10, class: "lbl", style: "fill:var(--water);font-style:italic;font-family:var(--f-body);font-size:13px"}, svg); rl.textContent = "Río Mendoza";
+  // distritos
+  const gd = el("g", {}, svg);
+  const M = METRICS[metric];
+  nodes.forEach(n => {
+    const v = M.get(n.d);
+    const c = el("circle", {cx: n.x, cy: n.y, r: n.r, fill: ramp(M.t(v)), class: "dist" + (n.d.nombre === selected ? " sel" : ""), tabindex: 0, role: "button", "aria-label": `${n.d.nombre}: ${fmt(n.d.pob)} habitantes, ${M.fmt(v)}`}, gd);
+    c.addEventListener("mousemove", e => showTip(e, n.d));
+    c.addEventListener("mouseleave", hideTip);
+    c.addEventListener("click", () => select(n.d.nombre));
+    c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(n.d.nombre); } });
+  });
+  // plantas
+  const gp = el("g", {}, svg);
+  const plantLbl = {"Luján I": [-1, -1], "Luján II": [1, 1], "Anexo Luján": [0, 0], "Cipolletti": [-1, 1], "Santa Elena": [-1, -1], "Potrerillos": [1, -1]};
+  D.plantas.forEach(p => {
+    const x = sx(p.lon) + (p.nombre === "Anexo Luján" ? 0 : p.nombre === "Luján II" ? 8 : 0), y = sy(p.lat);
+    const mun = p.operador !== "AYSAM";
+    el("rect", {x: x - 6, y: y - 6, width: 12, height: 12, transform: `rotate(45 ${x} ${y})`, fill: mun ? css("--surface") : css("--water"), stroke: css("--water"), "stroke-width": 2}, gp);
+  });
+  // etiquetas de plantas agrupadas
+  const lab = (x, y, a, txt, sub) => { const t = el("text", {x, y, "text-anchor": a, class: "lbl n", style: "fill:var(--water)"}, gp); t.textContent = txt; if (sub) { const s = el("text", {x, y: y + 13, "text-anchor": a, class: "lbl"}, gp); s.textContent = sub; } };
+  lab(24, sy(-32.9643) - 44, "start", "Planta Potrerillos", "1.100 l/s · AYSAM");
+  const lead = (x1, y1, x2, y2) => el("path", {d: `M${x1} ${y1} H${x2 + (x1 < x2 ? -8 : 8)} L${x2} ${y2}`, fill: "none", stroke: css("--water"), "stroke-width": 1, "stroke-dasharray": "2 2"}, gp);
+  const lx = 24;
+  lead(lx + 196, 400, sx(-68.9128), sy(-33.0437) + 8);
+  lab(lx, 396, "start", "Cipolletti 850 l/s", "Municipio de Luján");
+  lead(lx + 196, 452, sx(-68.906), sy(-33.0407) + 8);
+  lab(lx, 448, "start", "Luján I · II · Anexo", "3.483 l/s · AYSAM");
+  lead(lx + 196, 344, sx(-68.9266), sy(-33.0154) - 8);
+  lab(lx, 340, "start", "Santa Elena 60 l/s", "Municipio de Luján");
+  // etiquetas de distritos
+  // etiqueta: centrada si entra; si no, a la derecha, izquierda o arriba según dónde no choque
+  const placed = [];
+  nodes.forEach(n => {
+    const txt = n.d.nombre.replace("Vertientes del Pedemonte", "V. del Pedemonte").replace("Chacras de Coria", "Chacras");
+    const tw = txt.length * 7.2;
+    const hits = (x0, y0) => x0 < 4 || x0 + tw > W - 4 || nodes.some(o => o !== n && Math.max(x0 - o.x, 0, o.x - (x0 + tw)) ** 2 + Math.max(y0 - 10 - o.y, 0, o.y - (y0 + 4)) ** 2 < o.r * o.r)
+      || placed.some(([a, b, w]) => x0 < a + w && a < x0 + tw && Math.abs(b - y0) < 13);
+    const opts = n.r > 26 ? [[n.x - tw / 2, n.y + 4]] : [];
+    opts.push([n.x + n.r + 4, n.y + 4], [n.x - n.r - 4 - tw, n.y + 4], [n.x - tw / 2, n.y - n.r - 6], [n.x - tw / 2, n.y + n.r + 14]);
+    const [x0, y0] = opts.find(([a, b]) => !hits(a, b)) || opts[0];
+    placed.push([x0, y0, tw]);
+    const t = el("text", {x: x0, y: y0, class: "lbl n"}, svg); t.textContent = txt;
+  });
+  $("#rLo").textContent = M.lo; $("#rHi").textContent = M.hi;
+}
+
+const tip = $("#tip");
+function showTip(e, d) {
+  const box = $("#mapbox").getBoundingClientRect();
+  tip.innerHTML = `<b>${d.nombre}</b><br>${fmt(d.pob)} hab. (est.)<br>${fmt((1 - d.cloaca) * 100)} % sin cloaca · ${fmt(d.sin_cloaca)} pers.<br>${fmt(d.pozos)} pozos · ${d.pozos_abast} de abastecimiento`;
+  tip.hidden = false;
+  let x = e.clientX - box.left + 14, y = e.clientY - box.top + 14;
+  if (x + 240 > box.width) x -= 260;
+  if (y + 100 > box.height) y -= 110;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.hidden = true; }
+
+function select(name) {
+  selected = name; drawMap(); renderFicha();
+}
+function renderFicha() {
+  const d = D.distritos.find(x => x.nombre === selected);
+  const sin = 1 - d.cloaca;
+  const nivel = d.riesgoN > .35 ? ["crit", "Riesgo alto"] : d.riesgoN > .1 ? ["warn", "Riesgo medio"] : ["good", "Riesgo bajo"];
+  const efl = d.sin_cloaca * 0.37 * 0.8; // m3/d con 370 L/hab/d
+  $("#ficha").innerHTML = `
+    <div class="eyebrow">Distrito</div>
+    <h3>${d.nombre}</h3>
+    <span class="pill ${nivel[0]}">${nivel[1]} al acuífero</span>
+    <div class="rows">
+      <div class="row"><span>Habitantes (est. 2022)</span><span>${fmt(d.pob)}</span></div>
+      <div class="row"><span>Cobertura cloacal (est.)</span><span>${fmt(d.cloaca * 100)} %</span></div>
+      <div class="row"><span>Personas sin cloaca</span><span>${fmt(d.sin_cloaca)}</span></div>
+      <div class="row"><span>Efluente a pozo séptico</span><span>${fmt(efl)} m³/día</span></div>
+      <div class="row"><span>Pozos registrados</span><span>${fmt(d.pozos)}</span></div>
+      <div class="row"><span>· agrícolas</span><span>${fmt(d.pozos_agricolas)}</span></div>
+      <div class="row"><span>· de abastecimiento</span><span>${d.pozos_abast} · ${fmt(d.abast_ls)} l/s</span></div>
+    </div>
+    <div style="display:grid;gap:6px"><span class="eyebrow">Cobertura cloacal</span><div class="bar"><b style="width:${d.cloaca * 100}%"></b></div></div>`;
+}
+
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  metric = b.dataset.m;
+  document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  drawMap();
+}));
+
+/* ---------- gráfico de dotación ---------- */
+function drawDot() {
+  const rows = [
+    {n: "Santa Elena (Municipio)", v: LsToLhd(60, 2546), m: 1},
+    {n: "Cipolletti (Municipio)", v: LsToLhd(850, 45690), m: 1},
+    {n: "Potrerillos (AYSAM)", v: LsToLhd(1100, 135771)},
+    {n: "Luján II (AYSAM)", v: LsToLhd(800, 71959)},
+    {n: "Luján I + Anexo (AYSAM)", v: LsToLhd(2683, 370266)},
+    {n: "Gran Mendoza, promedio", v: LsToLhd(D.total_rio_mendoza, D.gran_mendoza_hab)},
+  ];
+  const box = $("#cDot"); box.innerHTML = `<h3 style="margin-bottom:4px">Dotación cruda por habitante</h3><div class="eyebrow" style="margin-bottom:10px">L/hab/día · empadronado ÷ población abastecida</div>`;
+  const w = 520, rh = 34, top = 18, left = 170, h = top + rows.length * rh + 30, max = 2200;
+  const svg = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Dotación por habitante por planta"}, box);
+  const x = v => left + v / max * (w - left - 50);
+  const gg = el("g", {class: "grid"}, svg);
+  [0, 500, 1000, 1500, 2000].forEach(t => { el("line", {x1: x(t), x2: x(t), y1: top - 6, y2: h - 26}, gg); const tx = el("text", {x: x(t), y: h - 10, "text-anchor": "middle", class: "axis"}, svg); tx.textContent = fmt(t); });
+  rows.forEach((r, i) => {
+    const y = top + i * rh;
+    const c = el("text", {x: left - 10, y: y + 17, "text-anchor": "end", class: "cat"}, svg); c.textContent = r.n;
+    const bw = Math.max(2, x(r.v) - left);
+    el("path", {d: `M${left} ${y + 6} H${left + bw - 4} Q${left + bw} ${y + 6} ${left + bw} ${y + 10} V${y + 18} Q${left + bw} ${y + 22} ${left + bw - 4} ${y + 22} H${left}Z`, fill: r.m ? css("--dry") : css("--water")}, svg)
+      .appendChild(Object.assign(document.createElementNS(NS, "title"), {textContent: `${r.n}: ${fmt(r.v)} L/hab/día`}));
+    const v = el("text", {x: left + bw + 6, y: y + 18, class: "vlbl num"}, svg); v.textContent = fmt(r.v);
+  });
+  [[100, "OMS 100"], [300, "Diseño 300"]].forEach(([v, l], i) => {
+    el("line", {x1: x(v), x2: x(v), y1: top - 10, y2: h - 26, class: "ref"}, svg);
+    const t = el("text", {x: x(v) + 4, y: i ? h - 30 : top - 8, class: "reflbl"}, svg); t.textContent = l;
+  });
+  const lg = document.createElement("div"); lg.className = "legend"; lg.style.marginTop = "8px";
+  lg.innerHTML = `<span class="sym"><span style="width:12px;height:12px;border-radius:2px;background:var(--dry);display:inline-block"></span>Operado por el Municipio de Luján</span><span class="sym"><span style="width:12px;height:12px;border-radius:2px;background:var(--water);display:inline-block"></span>Operado por AYSAM</span>`;
+  box.appendChild(lg);
+}
+
+/* ---------- gráfico de usos de pozos ---------- */
+function drawUso() {
+  const lbl = {"Agricola": "Agrícola", "Comun o Domestico": "Doméstico", "Industrial": "Industrial", "Abastecimiento Poblacion": "Abastecimiento poblacional", "Monitoreo acuifero subterraneo": "Monitoreo", "Recreativo": "Recreativo"};
+  const rows = D.usos.filter(u => lbl[u.uso]).sort((a, b) => b.ls - a.ls);
+  const box = $("#cUso"); box.innerHTML = `<h3 style="margin-bottom:4px">Capacidad de bombeo declarada en Luján</h3><div class="eyebrow" style="margin-bottom:10px">l/s · ${fmt(D.pozos_total)} pozos por uso · escala logarítmica</div>`;
+  const w = 520, rh = 34, top = 8, left = 170, h = top + rows.length * rh + 30;
+  const svg = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Capacidad declarada de pozos por uso"}, box);
+  const lx = v => left + Math.log10(Math.max(1, v)) / Math.log10(50000) * (w - left - 90);
+  const gg = el("g", {class: "grid"}, svg);
+  [1, 10, 100, 1000, 10000].forEach(t => { el("line", {x1: lx(t), x2: lx(t), y1: top, y2: h - 26}, gg); const tx = el("text", {x: lx(t), y: h - 10, "text-anchor": "middle", class: "axis"}, svg); tx.textContent = fmt(t); });
+  rows.forEach((r, i) => {
+    const y = top + i * rh, ab = r.uso === "Abastecimiento Poblacion";
+    const c = el("text", {x: left - 10, y: y + 17, "text-anchor": "end", class: "cat", style: ab ? "font-weight:600" : ""}, svg); c.textContent = lbl[r.uso];
+    const bw = Math.max(2, lx(r.ls) - left);
+    el("path", {d: `M${left} ${y + 6} H${left + bw - 4} Q${left + bw} ${y + 6} ${left + bw} ${y + 10} V${y + 18} Q${left + bw} ${y + 22} ${left + bw - 4} ${y + 22} H${left}Z`, fill: ab ? css("--water") : css("--ink-3")}, svg)
+      .appendChild(Object.assign(document.createElementNS(NS, "title"), {textContent: `${lbl[r.uso]}: ${r.n} pozos, ${fmt(r.ls)} l/s`}));
+    const v = el("text", {x: left + bw + 6, y: y + 18, class: "vlbl num"}, svg); v.textContent = `${fmt(r.ls)} · ${r.n} pozos`;
+  });
+  const agr = D.usos.find(u => u.uso === "Agricola").ls;
+  const p = document.createElement("p"); p.className = "muted"; p.style.fontSize = ".92rem"; p.style.marginTop = "8px";
+  p.innerHTML = `Los pozos agrícolas declaran <b class="num">${fmt(agr / pozAbLs)}</b> veces más capacidad que los de abastecimiento poblacional, y comparten el mismo acuífero.`;
+  box.appendChild(p);
+}
+
+/* ---------- simulador ---------- */
+const PRESETS = {norma: {dot: 250, per: 25, rio: 100, cre: 3.2}, actual: {dot: 370, per: 35, rio: 100, cre: 3.2}, seco: {dot: 370, per: 35, rio: 70, cre: 3.2}};
+const S = {dot: $("#sDot"), per: $("#sPer"), rio: $("#sRio"), cre: $("#sCre")};
+$("#sCre").value = (crec * 100).toFixed(1);
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => { const p = PRESETS[c.dataset.p]; for (const k in p) S[k].value = p[k]; sim(); }));
+Object.values(S).forEach(i => i.addEventListener("input", sim));
+
+function sim() {
+  const dot = +S.dot.value, per = +S.per.value / 100, rio = +S.rio.value / 100, g = +S.cre.value / 100;
+  $("#oDot").textContent = dot + " L/día"; $("#oPer").textContent = S.per.value + " %"; $("#oRio").textContent = S.rio.value + " %"; $("#oCre").textContent = (+S.cre.value).toFixed(1) + " %/año";
+  const sup = (munLs + aysLujanLs) * rio + pozAbLs;
+  const util = sup * (1 - per);
+  const cap = util * 86400 / dot;
+  const pop = y => D.pob_2022 * Math.pow(1 + g, y - 2022);
+  const yCross = cap > D.pob_2022 ? 2022 + Math.log(cap / D.pob_2022) / Math.log(1 + g) : null;
+  const deficitHoy = cap <= D.pob_2022;
+  const efl = sinCloaca * dot / 1000 * 0.8;
+  $("#aEfl").textContent = "≈" + fmt(Math.round(sinCloaca * 0.37 * 0.8 / 100) * 100) + " m³";
+
+  $("#verdict").innerHTML = deficitHoy
+    ? `<span class="y">Déficit hoy.</span> Con estos supuestos el sistema abastece a ${fmt(cap)} personas: ${fmt(D.pob_2022 - cap)} menos que la población actual.`
+    : yCross > 2050 ? `<span class="ok">Alcanza más allá de 2050.</span> El sistema podría abastecer a ${fmt(cap)} personas.`
+    : `<span class="y">La demanda alcanza a la oferta en ${Math.floor(yCross)}.</span> El sistema abastece a ${fmt(cap)} personas; quedan ${Math.floor(yCross) - 2026} años de margen.`;
+
+  $("#simRows").innerHTML = `
+    <div class="row"><span>Oferta bruta atribuible a Luján</span><span>${fmt(sup)} l/s</span></div>
+    <div class="row"><span>· superficial municipal</span><span>${fmt(munLs * rio)} l/s</span></div>
+    <div class="row"><span>· superficial AYSAM (parte de Luján)</span><span>${fmt(aysLujanLs * rio)} l/s</span></div>
+    <div class="row"><span>· pozos de abastecimiento</span><span>${fmt(pozAbLs)} l/s</span></div>
+    <div class="row"><span>Oferta útil tras pérdidas</span><span>${fmt(util)} l/s</span></div>
+    <div class="row"><span>Efluente de la población sin cloaca</span><span>${fmt(efl)} m³/día · ${fmt(efl * 365 / 1e6, 1)} hm³/año</span></div>`;
+
+  // gráfico
+  const box = $("#cSim"); box.innerHTML = "";
+  const w = 640, h = 300, l = 58, r = 16, t = 18, b = 30;
+  const svg = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Población proyectada frente a población abastecible"}, box);
+  const y0 = 2010, y1 = 2050;
+  const ymax = Math.max(pop(2050), cap, 200000) * 1.08;
+  const X = y => l + (y - y0) / (y1 - y0) * (w - l - r), Y = v => h - b - v / ymax * (h - t - b);
+  const gg = el("g", {class: "grid"}, svg);
+  const step = ymax > 600000 ? 200000 : 100000;
+  for (let v = 0; v <= ymax; v += step) { el("line", {x1: l, x2: w - r, y1: Y(v), y2: Y(v)}, gg); const tx = el("text", {x: l - 8, y: Y(v) + 4, "text-anchor": "end", class: "axis"}, svg); tx.textContent = v ? fmt(v / 1000) + " mil" : "0"; }
+  [2010, 2022, 2030, 2040, 2050].forEach(y => { const tx = el("text", {x: X(y), y: h - 10, "text-anchor": "middle", class: "axis"}, svg); tx.textContent = y; });
+  // zona de déficit
+  const xc = deficitHoy ? X(2022) : yCross && yCross < y1 ? X(yCross) : null;
+  if (xc) el("rect", {x: xc, y: t, width: w - r - xc, height: h - t - b, fill: css("--dry-soft"), opacity: .7}, svg);
+  // capacidad
+  el("line", {x1: l, x2: w - r, y1: Y(cap), y2: Y(cap), stroke: css("--cap"), "stroke-width": 2}, svg);
+  const cl = el("text", {x: l + 6, y: Y(cap) - 7, class: "vlbl", style: "fill:var(--cap)"}, svg); cl.textContent = `Población abastecible ${fmt(cap / 1000)} mil`;
+  // población: histórica (2010–2022) + proyección
+  const hist = [[2010, D.pob_2010], [2022, D.pob_2022]];
+  el("path", {d: "M" + hist.map(([y, v]) => `${X(y)} ${Y(v)}`).join(" L"), fill: "none", stroke: css("--pop"), "stroke-width": 2}, svg);
+  const proj = []; for (let y = 2022; y <= y1; y++) proj.push(`${X(y)} ${Y(pop(y))}`);
+  el("path", {d: "M" + proj.join(" L"), fill: "none", stroke: css("--pop"), "stroke-width": 2, "stroke-dasharray": "5 4"}, svg);
+  [[2010, D.pob_2010], [2022, D.pob_2022]].forEach(([y, v]) => el("circle", {cx: X(y), cy: Y(v), r: 4, fill: css("--pop"), stroke: css("--surface"), "stroke-width": 2}, svg));
+  const pl = el("text", {x: X(2050) - 4, y: Y(pop(2050)) - 8, "text-anchor": "end", class: "vlbl"}, svg); pl.textContent = `Población ${fmt(pop(2050) / 1000)} mil en 2050`;
+  if (xc && !deficitHoy) {
+    el("circle", {cx: xc, cy: Y(cap), r: 6, fill: css("--dry"), stroke: css("--surface"), "stroke-width": 2}, svg);
+    const ct = el("text", {x: xc + (xc > w - 160 ? -10 : 10), y: Y(cap) + 20, "text-anchor": xc > w - 160 ? "end" : "start", class: "vlbl", style: "fill:var(--dry);font-weight:600"}, svg); ct.textContent = `Déficit desde ${Math.floor(yCross)}`;
+  }
+  // hover
+  const hl = el("line", {y1: t, y2: h - b, stroke: css("--ink-3"), "stroke-width": 1, visibility: "hidden"}, svg);
+  const tipS = document.createElement("div"); tipS.className = "tip"; tipS.hidden = true; box.appendChild(tipS);
+  const hit = el("rect", {x: l, y: t, width: w - l - r, height: h - t - b, fill: "transparent"}, svg);
+  hit.addEventListener("mousemove", e => {
+    const bb = svg.getBoundingClientRect(); const px = (e.clientX - bb.left) / bb.width * w;
+    const yr = Math.round(y0 + (px - l) / (w - l - r) * (y1 - y0)); if (yr < y0 || yr > y1) return;
+    const pv = yr <= 2022 ? D.pob_2010 + (D.pob_2022 - D.pob_2010) * (yr - 2010) / 12 : pop(yr);
+    hl.setAttribute("x1", X(yr)); hl.setAttribute("x2", X(yr)); hl.setAttribute("visibility", "visible");
+    tipS.innerHTML = `<b>${yr}</b><br>Población ${fmt(pv)}<br>Abastecible ${fmt(cap)}<br>${pv > cap ? "Faltan " + fmt(pv - cap) : "Margen " + fmt(cap - pv)}`;
+    tipS.hidden = false; const bx = box.getBoundingClientRect();
+    let tx = e.clientX - bx.left + 12; if (tx + 180 > bx.width) tx -= 200; tipS.style.left = tx + "px"; tipS.style.top = (e.clientY - bx.top - 10) + "px";
+  });
+  hit.addEventListener("mouseleave", () => { tipS.hidden = true; hl.setAttribute("visibility", "hidden"); });
+}
+
+/* ---------- tabla ---------- */
+function tabla() {
+  const rows = [...D.distritos].sort((a, b) => b.riesgo - a.riesgo);
+  $("#tabla").innerHTML = `<thead><tr><th>Distrito</th><th>Habitantes (est.)</th><th>Cloaca (est.)</th><th>Sin cloaca</th><th>Pozos</th><th>Agrícolas</th><th>Abastecimiento</th><th>Riesgo /100</th></tr></thead><tbody>` +
+    rows.map(d => `<tr><td>${d.nombre}</td><td>${fmt(d.pob)}</td><td>${fmt(d.cloaca * 100)} %</td><td>${fmt(d.sin_cloaca)}</td><td>${fmt(d.pozos)}</td><td>${fmt(d.pozos_agricolas)}</td><td>${d.pozos_abast}</td><td>${fmt(d.riesgoN * 100)}</td></tr>`).join("") +
+    `<tr><td>Sin localizar</td><td></td><td></td><td></td><td>${fmt(D.pozos_sin_localizar)}</td><td></td><td></td><td></td></tr></tbody>`;
+}
+
+function renderAll() { drawMap(); renderFicha(); drawDot(); drawUso(); sim(); tabla(); }
+renderAll();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderAll);
+new MutationObserver(renderAll).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
+</script>
