@@ -83,6 +83,22 @@ def localidad(dom):
     return m[-1].strip() if m else None
 
 
+def prof_bomba(lu):
+    """Pozos por tramo de profundidad de bomba (m). Excluye los registros sin dato (0)."""
+    v = lu.loc[lu["Profundidad Bomba"] > 0, "Profundidad Bomba"]
+    tramos = [(0, 25), (25, 50), (50, 75), (75, 100), (100, 150), (150, 300)]
+    return {"n_con_dato": int(len(v)), "mediana": float(v.median()),
+            "tramos": [{"desde": a, "hasta": b, "n": int(((v > a) & (v <= b)).sum())} for a, b in tramos]}
+
+
+def decadas(lu):
+    """Pozos por década de perforación."""
+    y = lu["Fecha Ejecución"].dt.year.dropna()
+    dec = (y // 10 * 10).astype(int).clip(lower=1940)
+    return {"mediana": int(y.median()), "n_con_dato": int(len(y)),
+            "serie": [{"decada": int(k), "n": int(v)} for k, v in dec.value_counts().sort_index().items()]}
+
+
 def main():
     df = pd.read_excel(POZOS, header=2)
     lu = df[df["Departamento"] == "LUJAN DE CUYO"].copy()
@@ -114,6 +130,10 @@ def main():
         "pozos_total": int(len(lu)),
         "pozos_sin_localizar": int((lu["distrito"] == "Sin localizar").sum()),
         "usos": [{"uso": r.Uso, "n": int(r.n), "ls": round(float(r.ls), 1)} for r in usos.itertuples()],
+        # vulnerabilidad: profundidad de bomba y antigüedad de las perforaciones (solo registros con dato)
+        "prof_bomba": prof_bomba(lu),
+        "prof_bomba_abast": [int(v) for v in lu.loc[abast & (lu["Profundidad Bomba"] > 0), "Profundidad Bomba"]],
+        "decadas": decadas(lu),
         "pozos_abast": json.loads(pozos_abast.to_json(orient="records", force_ascii=False)),
     }
     (AQUI / "datos_lujan.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))

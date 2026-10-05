@@ -128,6 +128,17 @@ input[type=range]{width:100%;accent-color:var(--water)}
 .answer div.w{border-color:var(--water)} .answer div.d{border-color:var(--dry)}
 .answer h3{font-size:1.3rem;font-weight:800;font-stretch:110%}
 
+.septic{display:grid;grid-template-columns:320px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.septic{grid-template-columns:minmax(0,1fr)}}
+.bigout{font-family:var(--f-display);font-weight:900;font-stretch:120%;font-size:clamp(2.6rem,7vw,4.2rem);line-height:.9;color:var(--dry);font-variant-numeric:tabular-nums}
+.formula{font-family:var(--f-data);font-size:.8rem;color:var(--ink-2);background:var(--bg);border-radius:4px;padding:8px 10px;line-height:1.5}
+.ctl input[type=number]{font:500 1rem var(--f-data);width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--bg);color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-block:1px solid var(--rule)}
+.facts>div{padding:16px 16px 16px 0;display:grid;gap:4px;align-content:start}
+.facts>div+div{padding-left:16px;border-left:1px solid var(--rule)}
+.facts .v{font-family:var(--f-display);font-weight:800;font-stretch:110%;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1;color:var(--dry)}
+@media (max-width:760px){.facts{grid-template-columns:minmax(0,1fr)}.facts>div+div{border-left:none;padding-left:0;border-top:1px solid var(--rule)}}
+.callout{border-left:3px solid var(--water);padding:4px 0 4px 16px;display:grid;gap:6px}
 table{border-collapse:collapse;width:100%;font-size:.86rem}
 th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
 th:first-child,td:first-child{text-align:left}
@@ -181,6 +192,48 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
   </div>
 </section>
 
+<section id="septicos">
+  <div style="display:grid;gap:10px">
+    <div class="eyebrow">Saneamiento · pozos sépticos y acuífero</div>
+    <h2>Lo que vuelve al suelo: pozos sépticos sobre el acuífero</h2>
+    <p class="muted">Cada hogar sin red cloacal descarga sus líquidos en un sistema propio: cámara séptica y pozo absorbente, o solo pozo absorbente. Ese efluente se infiltra en el suelo, encima del mismo acuífero del que bombean los pozos del registro. Los datos que recibimos no incluyen un registro de pozos sépticos, así que la cantidad se calcula a partir de dos datos que podés corregir.</p>
+  </div>
+
+  <div class="septic">
+    <div class="ctl card">
+      <label for="sepCob"><span class="top">Cobertura cloacal del departamento <output id="oSepCob"></output></span><input type="range" id="sepCob" min="30" max="95" step="1" value="55"></label>
+      <label for="sepHog"><span class="top">Personas por hogar <output id="oSepHog"></output></span><input type="range" id="sepHog" min="2.4" max="4" step="0.1" value="3"></label>
+      <label for="sepDot"><span class="top">Consumo por persona <output id="oSepDot"></output></span><input type="range" id="sepDot" min="150" max="500" step="10" value="250"></label>
+      <div class="formula">Pozos sépticos ≈ población 2022 × (1 − cobertura) ÷ personas por hogar<br>Efluente ≈ personas sin cloaca × consumo × 0,8</div>
+      <p class="muted" style="font-size:.82rem">Valores iniciales: 55 % de cobertura (dato de prensa 2022, a confirmar con AYSAM), 3 personas por hogar y 250 L por persona y día (supuestos de cálculo).</p>
+    </div>
+    <div style="display:grid;gap:16px;min-width:0">
+      <div style="display:grid;gap:4px"><span class="eyebrow">Pozos sépticos estimados en Luján de Cuyo</span><div class="bigout" id="sepN">26.000</div><p class="muted" id="sepTxt"></p></div>
+      <div class="chart" id="cCorte"></div>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div><div class="v num" id="fSup">166</div><p class="muted" style="font-size:.92rem" id="fSupT">pozos del registro tienen la bomba a 50 m o menos de profundidad.</p></div>
+    <div><div class="v num" id="fAge">1975</div><p class="muted" style="font-size:.92rem" id="fAgeT">es el año mediano de perforación: la mitad de los pozos tiene más de 50 años.</p></div>
+    <div><div class="v num" id="fAb">11 m</div><p class="muted" style="font-size:.92rem" id="fAbT">es la bomba menos profunda entre los pozos de abastecimiento a población con dato.</p></div>
+  </div>
+
+  <div class="two">
+    <div class="chart" id="cProf"></div>
+    <div class="chart" id="cDec"></div>
+  </div>
+
+  <div class="callout">
+    <h3>Por qué importa</h3>
+    <p>El efluente de un pozo séptico lleva nitratos, bacterias y otros contaminantes domésticos. Cuanto más cerca de la superficie toma agua un pozo, menos suelo filtra lo que baja. Y un pozo viejo, con el encamisado deteriorado o mal cegado, puede funcionar como un caño directo entre la superficie y capas más profundas. La combinación de muchos pozos sépticos, bombas poco profundas y perforaciones antiguas es la que define la vulnerabilidad del acuífero.</p>
+  </div>
+  <div class="callout">
+    <h3>Cómo obtener el número oficial</h3>
+    <p>El Censo 2022 del INDEC pregunta por el desagüe del inodoro de cada hogar: a red pública, a cámara séptica y pozo ciego, solo a pozo ciego, u otro. Consultado por radio censal en REDATAM, da la cantidad real de pozos sépticos por distrito y reemplaza esta estimación. Cruzado con un análisis de nitratos en los pozos de abastecimiento, permite medir la vulnerabilidad en lugar de inferirla.</p>
+  </div>
+</section>
+
 <section id="balance">
   <div style="display:grid;gap:10px">
     <div class="eyebrow">Balance · litros por habitante y día</div>
@@ -227,7 +280,7 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
   <div class="answer">
     <div class="w"><h3>Mucho, en derechos</h3><p>La dotación cruda municipal equivale a <b class="num" id="aMun">1.630</b> L/hab/día y la de las plantas de AYSAM en Luján a <b class="num" id="aAys">680</b>. Una ciudad eficiente vive con 200 a 300. Luján tiene derechos de agua superficial para varias veces su población actual.</p></div>
     <div class="d"><h3>Poco, en eficiencia</h3><p>Entre pérdidas de red, consumo alto y años secos del Río Mendoza, ese margen se evapora. Con el consumo actual y un río al 70 % de su derecho, la demanda de Luján alcanza a la oferta a mediados de la próxima década, al ritmo de crecimiento que muestra el censo.</p></div>
-    <div class="d"><h3>Crítico, en saneamiento</h3><p>El cuello de botella no es el agua que entra sino la que sale. <b class="num" id="aEfl">≈19.000 m³</b> diarios de efluente domiciliario sin red van a pozos sépticos sobre el mismo acuífero del que bombean <b class="num" id="aPoz">1.049</b> pozos registrados fuera del área de cobertura cloacal, sobre todo en El Carrizal, Ugarteche y Agrelo.</p></div>
+    <div class="d"><h3>Crítico, en saneamiento</h3><p>El cuello de botella no es el agua que entra sino la que sale. <b class="num" id="aEfl">≈15.800 m³</b> diarios de efluente domiciliario sin red (ver <a href="#septicos" style="color:inherit">pozos sépticos</a>) van al suelo sobre el mismo acuífero del que bombean <b class="num" id="aPoz">1.049</b> pozos registrados fuera del área de cobertura cloacal, sobre todo en El Carrizal, Ugarteche y Agrelo.</p></div>
   </div>
 </section>
 
@@ -248,7 +301,7 @@ details summary{cursor:pointer;font-family:var(--f-data);font-size:.85rem;color:
 </div>
 
 <script>
-const D = {"pob_2010":119888,"pob_2022":175056,"cloaca":0.55,"total_rio_mendoza":7848.5,"gran_mendoza_hab":1200000,"plantas":[{"nombre":"Luján I","operador":"AYSAM","ls":2100,"pob":370266,"ls_2035":3000,"lat":-33.0407,"lon":-68.906},{"nombre":"Luján II","operador":"AYSAM","ls":800,"pob":71959,"ls_2035":583,"lat":-33.0417,"lon":-68.8985},{"nombre":"Anexo Luján","operador":"AYSAM","ls":583,"pob":null,"ls_2035":null,"lat":-33.0425,"lon":-68.903},{"nombre":"Potrerillos","operador":"AYSAM","ls":1100,"pob":135771,"ls_2035":1100,"lat":-32.9643,"lon":-69.223},{"nombre":"Cipolletti","operador":"Municipio Luján","ls":850,"pob":45690,"ls_2035":1100,"lat":-33.0437,"lon":-68.9128},{"nombre":"Santa Elena","operador":"Municipio Luján","ls":60,"pob":2546,"ls_2035":60,"lat":-33.0154,"lon":-68.9266}],"distritos":[{"nombre":"Ciudad","lat":-33.036,"lon":-68.878,"pozos":11,"pozos_agricolas":5,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":175.6},{"nombre":"Carrodilla","lat":-32.968,"lon":-68.853,"pozos":13,"pozos_agricolas":6,"pozos_abast":4,"abast_ls":83.3,"capacidad_ls":262.7},{"nombre":"Chacras de Coria","lat":-32.99,"lon":-68.88,"pozos":16,"pozos_agricolas":9,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":156.4},{"nombre":"Perdriel","lat":-33.075,"lon":-68.895,"pozos":91,"pozos_agricolas":47,"pozos_abast":9,"abast_ls":136.1,"capacidad_ls":2018.1},{"nombre":"Mayor Drummond","lat":-33.005,"lon":-68.862,"pozos":21,"pozos_agricolas":17,"pozos_abast":1,"abast_ls":16.7,"capacidad_ls":534.4},{"nombre":"Vistalba","lat":-33.025,"lon":-68.925,"pozos":27,"pozos_agricolas":24,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":616.4},{"nombre":"La Puntilla","lat":-32.96,"lon":-68.875,"pozos":1,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":19.4},{"nombre":"Agrelo","lat":-33.12,"lon":-68.935,"pozos":156,"pozos_agricolas":133,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":5226.7},{"nombre":"Ugarteche","lat":-33.205,"lon":-68.89,"pozos":229,"pozos_agricolas":215,"pozos_abast":5,"abast_ls":25.8,"capacidad_ls":8430.7},{"nombre":"El Carrizal","lat":-33.3,"lon":-68.76,"pozos":370,"pozos_agricolas":341,"pozos_abast":8,"abast_ls":65.8,"capacidad_ls":12068.5},{"nombre":"Industrial","lat":-33.01,"lon":-68.825,"pozos":7,"pozos_agricolas":3,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":38.9},{"nombre":"Las Compuertas","lat":-33.035,"lon":-68.975,"pozos":15,"pozos_agricolas":8,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":992.9},{"nombre":"Potrerillos","lat":-32.962,"lon":-69.2,"pozos":9,"pozos_agricolas":3,"pozos_abast":4,"abast_ls":39.4,"capacidad_ls":187.3},{"nombre":"Cacheuta","lat":-33.03,"lon":-69.11,"pozos":5,"pozos_agricolas":2,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":141.7},{"nombre":"Vertientes del Pedemonte","lat":-32.985,"lon":-68.955,"pozos":0,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":0.0}],"pozos_total":1049,"pozos_sin_localizar":78,"usos":[{"uso":"Abastecimiento Poblacion","n":47,"ls":438.3},{"uso":"Agricola","n":872,"ls":29546.3},{"uso":"Comun o Domestico","n":19,"ls":1643.6},{"uso":"Industrial","n":65,"ls":952.9},{"uso":"Monitoreo acuifero subterraneo","n":33,"ls":174.1},{"uso":"Recreativo","n":12,"ls":111.5},{"uso":"Refuerzo de dotacion-A.Subterr.","n":1,"ls":0.0}]};
+const D = {"pob_2010":119888,"pob_2022":175056,"cloaca":0.55,"total_rio_mendoza":7848.5,"gran_mendoza_hab":1200000,"plantas":[{"nombre":"Luján I","operador":"AYSAM","ls":2100,"pob":370266,"ls_2035":3000,"lat":-33.0407,"lon":-68.906},{"nombre":"Luján II","operador":"AYSAM","ls":800,"pob":71959,"ls_2035":583,"lat":-33.0417,"lon":-68.8985},{"nombre":"Anexo Luján","operador":"AYSAM","ls":583,"pob":null,"ls_2035":null,"lat":-33.0425,"lon":-68.903},{"nombre":"Potrerillos","operador":"AYSAM","ls":1100,"pob":135771,"ls_2035":1100,"lat":-32.9643,"lon":-69.223},{"nombre":"Cipolletti","operador":"Municipio Luján","ls":850,"pob":45690,"ls_2035":1100,"lat":-33.0437,"lon":-68.9128},{"nombre":"Santa Elena","operador":"Municipio Luján","ls":60,"pob":2546,"ls_2035":60,"lat":-33.0154,"lon":-68.9266}],"distritos":[{"nombre":"Ciudad","lat":-33.036,"lon":-68.878,"pozos":11,"pozos_agricolas":5,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":175.6},{"nombre":"Carrodilla","lat":-32.968,"lon":-68.853,"pozos":13,"pozos_agricolas":6,"pozos_abast":4,"abast_ls":83.3,"capacidad_ls":262.7},{"nombre":"Chacras de Coria","lat":-32.99,"lon":-68.88,"pozos":16,"pozos_agricolas":9,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":156.4},{"nombre":"Perdriel","lat":-33.075,"lon":-68.895,"pozos":91,"pozos_agricolas":47,"pozos_abast":9,"abast_ls":136.1,"capacidad_ls":2018.1},{"nombre":"Mayor Drummond","lat":-33.005,"lon":-68.862,"pozos":21,"pozos_agricolas":17,"pozos_abast":1,"abast_ls":16.7,"capacidad_ls":534.4},{"nombre":"Vistalba","lat":-33.025,"lon":-68.925,"pozos":27,"pozos_agricolas":24,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":616.4},{"nombre":"La Puntilla","lat":-32.96,"lon":-68.875,"pozos":1,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":19.4},{"nombre":"Agrelo","lat":-33.12,"lon":-68.935,"pozos":156,"pozos_agricolas":133,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":5226.7},{"nombre":"Ugarteche","lat":-33.205,"lon":-68.89,"pozos":229,"pozos_agricolas":215,"pozos_abast":5,"abast_ls":25.8,"capacidad_ls":8430.7},{"nombre":"El Carrizal","lat":-33.3,"lon":-68.76,"pozos":370,"pozos_agricolas":341,"pozos_abast":8,"abast_ls":65.8,"capacidad_ls":12068.5},{"nombre":"Industrial","lat":-33.01,"lon":-68.825,"pozos":7,"pozos_agricolas":3,"pozos_abast":1,"abast_ls":0.0,"capacidad_ls":38.9},{"nombre":"Las Compuertas","lat":-33.035,"lon":-68.975,"pozos":15,"pozos_agricolas":8,"pozos_abast":3,"abast_ls":0.0,"capacidad_ls":992.9},{"nombre":"Potrerillos","lat":-32.962,"lon":-69.2,"pozos":9,"pozos_agricolas":3,"pozos_abast":4,"abast_ls":39.4,"capacidad_ls":187.3},{"nombre":"Cacheuta","lat":-33.03,"lon":-69.11,"pozos":5,"pozos_agricolas":2,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":141.7},{"nombre":"Vertientes del Pedemonte","lat":-32.985,"lon":-68.955,"pozos":0,"pozos_agricolas":0,"pozos_abast":0,"abast_ls":0.0,"capacidad_ls":0.0}],"pozos_total":1049,"pozos_sin_localizar":78,"usos":[{"uso":"Abastecimiento Poblacion","n":47,"ls":438.3},{"uso":"Agricola","n":872,"ls":29546.3},{"uso":"Comun o Domestico","n":19,"ls":1643.6},{"uso":"Industrial","n":65,"ls":952.9},{"uso":"Monitoreo acuifero subterraneo","n":33,"ls":174.1},{"uso":"Recreativo","n":12,"ls":111.5},{"uso":"Refuerzo de dotacion-A.Subterr.","n":1,"ls":0.0}],"prof_bomba":{"n_con_dato":499,"mediana":70.0,"tramos":[{"desde":0,"hasta":25,"n":21},{"desde":25,"hasta":50,"n":145},{"desde":50,"hasta":75,"n":100},{"desde":75,"hasta":100,"n":75},{"desde":100,"hasta":150,"n":126},{"desde":150,"hasta":300,"n":32}]},"prof_bomba_abast":[27,11,35,200,35,123,65,58,35,60,130,250,80,57,146,82],"decadas":{"mediana":1975,"n_con_dato":1048,"serie":[{"decada":1940,"n":7},{"decada":1950,"n":96},{"decada":1960,"n":154},{"decada":1970,"n":347},{"decada":1980,"n":74},{"decada":1990,"n":124},{"decada":2000,"n":113},{"decada":2010,"n":133}]}};
 const $ = s => document.querySelector(s);
 const fmt = (n, d = 0) => n.toLocaleString("es-AR", {minimumFractionDigits: d, maximumFractionDigits: d});
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -488,7 +541,6 @@ function sim() {
   const yCross = cap > D.pob_2022 ? 2022 + Math.log(cap / D.pob_2022) / Math.log(1 + g) : null;
   const deficitHoy = cap <= D.pob_2022;
   const efl = sinCloaca * dot / 1000 * 0.8;
-  $("#aEfl").textContent = "≈" + fmt(Math.round(sinCloaca * 0.37 * 0.8 / 100) * 100) + " m³";
 
   $("#verdict").innerHTML = deficitHoy
     ? `<span class="y">Déficit hoy.</span> Con estos supuestos el sistema abastece a ${fmt(cap)} personas: ${fmt(D.pob_2022 - cap)} menos que la población actual.`
@@ -547,6 +599,91 @@ function sim() {
   hit.addEventListener("mouseleave", () => { tipS.hidden = true; hl.setAttribute("visibility", "hidden"); });
 }
 
+
+/* ---------- pozos sépticos ---------- */
+const SEP = {cob: $("#sepCob"), hog: $("#sepHog"), dot: $("#sepDot")};
+Object.values(SEP).forEach(i => i.addEventListener("input", septic));
+function septic() {
+  const cob = +SEP.cob.value / 100, hog = +SEP.hog.value, dot = +SEP.dot.value;
+  $("#oSepCob").textContent = SEP.cob.value + " %"; $("#oSepHog").textContent = hog.toFixed(1).replace(".", ","); $("#oSepDot").textContent = dot + " L/día";
+  const sin = D.pob_2022 * (1 - cob), n = sin / hog, efl = sin * dot / 1000 * 0.8;
+  $("#sepN").textContent = fmt(Math.round(n / 100) * 100);
+  $("#sepTxt").innerHTML = `Equivale a <b class="num">${fmt(Math.round(sin / 100) * 100)}</b> personas sin red cloacal, que descargan cerca de <b class="num">${fmt(Math.round(efl / 100) * 100)} m³</b> de efluente por día al suelo: <b class="num">${fmt(efl * 365 / 1e6, 1)} hm³</b> al año, el volumen de unas <b class="num">${fmt(efl / 2500)}</b> piletas olímpicas por día.`;
+  $("#aEfl").textContent = "≈" + fmt(Math.round(efl / 100) * 100) + " m³";
+}
+
+function drawCorte() {
+  // corte esquemático: hogar → cámara séptica → pozo absorbente → zona no saturada → acuífero ← pozo de bombeo
+  const box = $("#cCorte"); box.innerHTML = `<h3 style="margin-bottom:4px">Cómo llega el efluente al acuífero</h3><div class="eyebrow" style="margin-bottom:10px">Corte esquemático · sin escala</div>`;
+  const w = 640, h = 270, gy = 70, wt = 200;
+  const svg = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Corte esquemático: el efluente del pozo séptico se infiltra hacia el acuífero del que bombea un pozo"}, box);
+  el("rect", {x: 0, y: gy, width: w, height: wt - gy, fill: css("--dry-soft")}, svg);
+  el("rect", {x: 0, y: wt, width: w, height: h - wt, fill: css("--water-soft")}, svg);
+  el("line", {x1: 0, x2: w, y1: gy, y2: gy, stroke: css("--ink-3"), "stroke-width": 1.5}, svg);
+  el("path", {d: `M0 ${wt} Q${w / 2} ${wt + 8} ${w} ${wt}`, fill: "none", stroke: css("--water"), "stroke-width": 1.5, "stroke-dasharray": "5 4"}, svg);
+  const T = (x, y, t, a = "start", c = "--ink", extra = "") => { const e = el("text", {x, y, "text-anchor": a, class: "reflbl", style: `fill:var(${c});font-size:11.5px;${extra}`}, svg); e.textContent = t; return e; };
+  // casa
+  el("path", {d: `M60 ${gy} V${gy - 30} L85 ${gy - 50} L110 ${gy - 30} V${gy}Z`, fill: css("--surface"), stroke: css("--ink"), "stroke-width": 1.5}, svg);
+  T(85, gy - 56, "Hogar sin cloaca", "middle", "--ink", "font-weight:600");
+  // cámara + pozo absorbente
+  el("rect", {x: 130, y: gy, width: 34, height: 22, fill: css("--surface"), stroke: css("--ink"), "stroke-width": 1.5}, svg);
+  el("path", {d: `M110 ${gy - 8} H147 V${gy}`, fill: "none", stroke: css("--ink"), "stroke-width": 1.5}, svg);
+  el("rect", {x: 180, y: gy, width: 22, height: 62, fill: css("--surface"), stroke: css("--ink"), "stroke-width": 1.5}, svg);
+  el("path", {d: `M164 ${gy + 8} H191`, fill: "none", stroke: css("--ink"), "stroke-width": 1.5}, svg);
+  T(166, gy + 36, "Cámara séptica", "end", "--ink-2");
+  T(208, gy + 50, "Pozo absorbente", "start", "--ink-2");
+  // pluma
+  el("path", {d: `M180 ${gy + 62} C150 ${gy + 100} 175 ${wt - 10} 230 ${wt + 30} C290 ${wt + 55} 360 ${wt + 40} 400 ${wt + 30} C330 ${wt + 10} 250 ${wt - 20} 202 ${gy + 62}Z`, fill: css("--dry"), opacity: .55}, svg);
+  T(236, wt + 60, "Pluma: nitratos, bacterias", "start", "--ink", "font-weight:600");
+  // pozo de bombeo
+  el("rect", {x: 470, y: gy - 24, width: 26, height: 24, fill: css("--surface"), stroke: css("--water"), "stroke-width": 1.5}, svg);
+  el("rect", {x: 478, y: gy, width: 10, height: h - gy - 12, fill: css("--surface"), stroke: css("--water"), "stroke-width": 1.5}, svg);
+  el("rect", {x: 478, y: wt + 24, width: 10, height: 26, fill: css("--water")}, svg);
+  T(w - 10, gy - 30, "Pozo de abastecimiento", "end", "--water", "font-weight:600");
+  T(494, wt + 40, "Bomba", "start", "--water");
+  // flechas de infiltración y bombeo
+  [[170, gy + 90], [215, gy + 110]].forEach(([x, y]) => el("path", {d: `M${x} ${y} v18 m-4 -5 l4 5 l4 -5`, fill: "none", stroke: css("--ink"), "stroke-width": 1.4}, svg));
+  el("path", {d: `M420 ${wt + 34} H468 m-6 -4 l6 4 l-6 4`, fill: "none", stroke: css("--ink"), "stroke-width": 1.4}, svg);
+  T(w - 10, gy + 16, "Zona no saturada", "end", "--ink-2");
+  T(w - 10, wt - 8, "Nivel freático", "end", "--water");
+  T(w - 10, h - 10, "Acuífero", "end", "--water", "font-weight:600");
+  T(w - 10, gy - 6, "Superficie", "end", "--ink-3");
+}
+
+function vbars(boxSel, title, sub, rows, hiKey) {
+  const box = $(boxSel); box.innerHTML = `<h3 style="margin-bottom:4px">${title}</h3><div class="eyebrow" style="margin-bottom:10px">${sub}</div>`;
+  const w = 520, h = 230, l = 40, r = 10, t = 22, b = 34;
+  const svg = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": title}, box);
+  const max = Math.max(...rows.map(x => x.n)) * 1.12;
+  const step = max > 200 ? 100 : 50;
+  const Y = v => h - b - v / max * (h - t - b);
+  const gg = el("g", {class: "grid"}, svg);
+  for (let v = 0; v <= max; v += step) { el("line", {x1: l, x2: w - r, y1: Y(v), y2: Y(v)}, gg); const tx = el("text", {x: l - 6, y: Y(v) + 4, "text-anchor": "end", class: "axis"}, svg); tx.textContent = fmt(v); }
+  const bw = (w - l - r) / rows.length;
+  rows.forEach((x, i) => {
+    const x0 = l + i * bw + 3, x1 = l + (i + 1) * bw - 3, y = Y(x.n), yb = Y(0);
+    el("path", {d: `M${x0} ${yb} V${y + 4} Q${x0} ${y} ${x0 + 4} ${y} H${x1 - 4} Q${x1} ${y} ${x1} ${y + 4} V${yb}Z`, fill: x[hiKey] ? css("--dry") : css("--ink-3")}, svg)
+      .appendChild(Object.assign(document.createElementNS(NS, "title"), {textContent: `${x.label}: ${fmt(x.n)} pozos`}));
+    const v = el("text", {x: (x0 + x1) / 2, y: y - 6, "text-anchor": "middle", class: "vlbl num"}, svg); v.textContent = fmt(x.n);
+    const c = el("text", {x: (x0 + x1) / 2, y: h - 14, "text-anchor": "middle", class: "axis"}, svg); c.textContent = x.label;
+  });
+}
+
+function drawVuln() {
+  const pb = D.prof_bomba, dec = D.decadas, ab = D.prof_bomba_abast;
+  const sup = pb.tramos.filter(x => x.hasta <= 50).reduce((a, x) => a + x.n, 0);
+  $("#fSup").textContent = fmt(sup);
+  $("#fSupT").textContent = `de los ${fmt(pb.n_con_dato)} pozos del registro con dato tienen la bomba a 50 m o menos (${fmt(sup / pb.n_con_dato * 100)} %).`;
+  $("#fAge").textContent = dec.mediana;
+  $("#fAgeT").textContent = `es el año mediano de perforación de los ${fmt(dec.n_con_dato)} pozos: la mitad tiene ${2026 - dec.mediana} años o más.`;
+  $("#fAb").textContent = Math.min(...ab) + " m";
+  $("#fAbT").textContent = `es la bomba menos profunda entre los ${ab.length} pozos de abastecimiento a población con dato de profundidad (mediana ${fmt(ab.slice().sort((a, b) => a - b).reduce((m, v, i, arr) => arr.length % 2 ? arr[(arr.length - 1) / 2] : (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2, 0), 1)} m).`;
+  vbars("#cProf", "Profundidad de bomba", `metros · ${fmt(pb.n_con_dato)} pozos con dato · en naranja, 50 m o menos`,
+    pb.tramos.map(x => ({label: x.hasta >= 300 ? "+150" : `${x.desde}–${x.hasta}`, n: x.n, hi: x.hasta <= 50})), "hi");
+  vbars("#cDec", "Año de perforación", `pozos por década · en naranja, antes de 1980`,
+    dec.serie.map(x => ({label: x.decada === 1940 ? "≤1940s" : x.decada + "s", n: x.n, hi: x.decada < 1980})), "hi");
+}
+
 /* ---------- tabla ---------- */
 function tabla() {
   const rows = [...D.distritos].sort((a, b) => b.pozos - a.pozos);
@@ -555,7 +692,7 @@ function tabla() {
     `<tr><td>Sin localizar</td><td>${fmt(D.pozos_sin_localizar)}</td><td></td><td></td><td></td><td></td></tr></tbody>`;
 }
 
-function renderAll() { drawMap(); renderFicha(); drawDot(); drawUso(); sim(); tabla(); }
+function renderAll() { drawMap(); renderFicha(); drawDot(); drawUso(); sim(); septic(); drawCorte(); drawVuln(); tabla(); }
 renderAll();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderAll);
 new MutationObserver(renderAll).observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
